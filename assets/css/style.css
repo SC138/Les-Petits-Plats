@@ -1,24 +1,17 @@
-/* @font-face {
-    font-family: "anton";
-    src: url('assets/fonts/Anton-Regular.ttf') format('truetype');
-} */
 @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
 *{
     box-sizing: border-box;
 }
 
 body {
-    /* font-family: "DM Sans", sans-serif; */
     margin: 0;
     font-weight: 400;
-    display: flex;
     align-items: flex-start;
     justify-content: center;
     height: 100vh; 
 }
 
 .header {
-    max-width: 1440px; 
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -33,6 +26,7 @@ body {
     justify-content: center;
     width: 100%; 
     top: 0;
+    z-index: 0;
 }
 
 .header_logo {
@@ -42,6 +36,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 1;
 }
 .title-search {
     position: absolute;
@@ -93,4 +88,41 @@ input{
     border: none;
     right: 240px;
     cursor: pointer;
+}
+
+main{
+    background-color: lightgrey;
+}
+
+.recipes_section {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 90%;
+    margin: auto;
+    gap: 50px;
+    padding-top: 30px;  
+}
+
+.recipe_article{
+    width: 100%;
+    height: 90%;
+    border: 1px solid red;
+    border-radius: 10px;
+    background-color: white;
+    box-sizing: border-box;
+}
+.recipe_card {
+    margin: 0;
+    height: 100%;
+}
+
+.img_recipe {
+    width: 100%;
+    height: 300px;
+    border-radius: 10px 10px 0 0;
+    object-fit: cover;
+}
+
+.ingredients_section {
+    height: 50%;
 }
