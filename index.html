@@ -3,32 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/4c94324210.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="shortcut icon" type="image/png" href="assets/favicon.png"/>
     <script type="module" src="scripts/index.js"></script>   
     <title>Les petits plats</title>
 </head>
+
 <body>
-    <header>
-        <div class="header">
-            <div class="header_bg">
-                <img src="assets/pictures/background.jpg" alt="background">
-                <div class="header_logo">
-                    <img src="assets/logo.png" alt="logo">
-                </div>
-                <div class="title-search">
-                    <h1>Cherchez parmi plus de 1500 recettes du quotidien, simples et délicieuses</h1>
-                    <div class="search">
-                        <input type="text" placeholder="Rechercher une recette, un ingrédient, ...">
-                        <button class="button_submit" type="submit">
-                            <img class="img_submit" src="assets/search.png" alt="Loupe de recherche">
-                        </button>
+    <div class="site-container">
+        <header>
+            <div class="header">
+                <div class="header_bg">
+                    <img src="assets/pictures/background.jpg" alt="background">
+                    <div class="header_logo">
+                        <img src="assets/logo.png" alt="logo">
+                    </div>
+                    <div class="title-search">
+                        <h1>Cherchez parmi plus de 1500 recettes du quotidien, simples et délicieuses</h1>
+                        <div class="search">
+                            <input type="text" placeholder="Rechercher une recette, un ingrédient, ...">
+                            <button class="button_submit" type="submit">
+                                <img class="img_submit" src="assets/search.png" alt="Loupe de recherche">
+                            </button>
+                    </div>
                 </div>
             </div>
         </div>
-    </header>
-    <main>
-        <div class="recipes_section"></div>
-    </main>
+        </header>
+        <main>
+            <section id="filtersSection">
+                <div class="filter_ingredients">
+                    <input type="text" id="ingredients" value="Ingrédients" readonly>
+                    <label class="filters" for="ingredients"><span><i class="fa-solid fa-chevron-down triDown"></i></span></label>
+                    <div class="filter_ingredients_container"></div>
+                </div>
+                <div class="filter_appareils">
+                    <input type="text" id="appareils" value="Appareils" readonly>
+                    <label class="filters" for="appareils"><span><i class="fa-solid fa-chevron-down triDown"></i></span></label>
+                    <div class="filter_appareils_container"></div>
+                </div>
+                <div class="ustencils">
+                    <input type="text" id="ustencils" value="Ustensiles" readonly>
+                    <label class="filters" for="ustencils"><span><i class="fa-solid fa-chevron-down triDown"></i></span></label>
+                    <div class="filter_ustencils_container"></div>
+                </div>
+            </section>
+            
+            <div class="recipes_section"></div>
+        </main>
+    </div>
+    
 </body>
 </html>

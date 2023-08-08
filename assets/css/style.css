@@ -1,10 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Manrope&display=swap');
+
 *{
     box-sizing: border-box;
 }
 
+.site-container {
+    max-width: 1440px;
+    margin: 0 auto;
+}
+
 body {
-    margin: 0;
+    margin: auto;
     font-weight: 400;
     align-items: flex-start;
     justify-content: center;
@@ -53,13 +59,14 @@ body {
 h1{
     display: flex;
     text-align: center;
-    max-width: 668px;
+    max-width: 760px;
     justify-content: center;
     color: #FFD15B;
     text-transform: uppercase;
     font-size: 44px;
     font-weight: bold;
     font-family: 'Anton', sans-serif;
+    letter-spacing: 2px;
 }
 
 .search{
@@ -90,10 +97,48 @@ input{
     cursor: pointer;
 }
 
+
 main{
     background-color: lightgrey;
 }
 
+/* Filtres ------------------------------------*/
+#filtersSection {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center; 
+    padding: 30px 0 30px 0; 
+    margin-left: 75px;
+}
+
+
+.filter_ingredients,
+.filter_appareils,
+.ustencils {
+    width: 15%; 
+    box-sizing: border-box; 
+    position: relative; 
+    margin-right: 50px;
+}
+
+
+.filter_ingredients input,
+.filter_appareils input,
+.ustencils input {
+    width: 100%;
+    height: 5vh;
+    box-sizing: border-box; 
+}
+
+.filters {
+    position: absolute;
+    right: 15px; 
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer; 
+}
+
+/* Cartes des recettes -----------------------------*/
 .recipes_section {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -105,24 +150,92 @@ main{
 
 .recipe_article{
     width: 100%;
-    height: 90%;
-    border: 1px solid red;
-    border-radius: 10px;
+    height: 770px;
+    border-radius: 20px;
     background-color: white;
     box-sizing: border-box;
+    
 }
 .recipe_card {
     margin: 0;
     height: 100%;
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px 20px 0 0;
+    
 }
 
 .img_recipe {
     width: 100%;
-    height: 300px;
-    border-radius: 10px 10px 0 0;
+    height: 265px;
+    border-radius: 20px 20px 0 0;
     object-fit: cover;
+    transform: scale(1.1);
+}
+
+.time{
+    padding: 5px 10px;
+    background-color: #FFD15B;
+    border-radius: 20px;
+    position: absolute;
+    top: 20px;
+    right: 15px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
 }
 
 .ingredients_section {
-    height: 50%;
+    padding: 20px 30px 30px;
+}
+
+.recipe_title {
+    padding-bottom: 30px;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: 'Anton', sans-serif;
+}
+
+.description_title{
+    font-family: 'Manrope', sans-serif;
+    color: grey;
+    margin-bottom: 10px;
+}
+
+.recipe_description {
+    margin: 0 0 20px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 4; 
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: 'Manrope', sans-serif;
+}
+
+.div_ingredients_bloc{
+    display: flex;
+    flex-direction: column;
+    font-family: 'Manrope', sans-serif; 
+    margin-bottom: 10px;
+    
+}
+
+.bloc_ingredients {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.ingredients_title{
+    font-family: 'Manrope', sans-serif;
+    color: grey;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+dd {
+    margin: 0;
+}
+
+
+.ingredients_unit{
+    color: grey;
 }
