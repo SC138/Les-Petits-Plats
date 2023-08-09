@@ -100,6 +100,7 @@ input{
 
 main{
     background-color: lightgrey;
+    position: relative;
 }
 
 /* Filtres ------------------------------------*/
@@ -136,6 +137,17 @@ main{
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer; 
+}
+
+/* Nombre de recettes ------------------------------ */
+#recipeCount{
+    display: flex;
+    font-family: 'anton', sans-serif;
+    font-weight: bold;
+    font-size: 18px;
+    position: absolute;
+    right: 5%;
+    top: 50px;
 }
 
 /* Cartes des recettes -----------------------------*/
