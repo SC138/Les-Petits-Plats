@@ -88,5 +88,6 @@ function generateRecipeCard(recipesData) {
 
 
 
+
 // Export de de la fonction 'generateRecipeCard' pour pouvoir l'utiliser ailleurs dans le code
 export { generateRecipeCard };
