@@ -69,6 +69,7 @@ h1{
     letter-spacing: 2px;
 }
 
+/* Barre de recherche ----------------------------- */
 .search{
     display: flex;
     position: relative;
@@ -95,6 +96,20 @@ input{
     border: none;
     right: 240px;
     cursor: pointer;
+}
+
+.no-recipe-message{
+    margin-top: 5px;
+    padding: 5px;
+    background-color: #FFD15B;
+    border-radius: 5px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+}
+/* Masque le css si la recherche ne donne aucun résultat */
+.no-recipe-message:empty {
+    display: none;
 }
 
 

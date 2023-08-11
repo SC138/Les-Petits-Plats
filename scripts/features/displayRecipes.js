@@ -7,7 +7,7 @@ import { generateRecipeCard } from "../../scripts/domgenerator/recipesCards.js";
 function updateRecipeCount() {
     // Sélectionne tous les articles de recettes présents dans la section des recettes
     const recipes = document.querySelectorAll('.recipes_section .recipe_article');
-    // Sélectionne le span où le compte des recettes est affiché
+    // Sélectionne la span où le compte des recettes est affiché
     const countSpan = document.querySelector('#recipeCount');
     
     let recipeWord;
