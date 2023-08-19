@@ -25,9 +25,11 @@
                         <h1>Cherchez parmi plus de 1500 recettes du quotidien, simples et délicieuses</h1>
                         <div class="search">
                             <input type="text" placeholder="Rechercher une recette, un ingrédient, ...">
-                            <button class="button_submit" type="submit">
-                                <img class="img_submit" src="assets/search.png" alt="Loupe de recherche">
+
+                            <button class="erase" type="submit">
+                                <i class="fa-solid fa-xmark"></i>
                             </button>
+                            <img class="img_submit" src="assets/search.png" alt="Loupe de recherche">
                             
                     </div>
                     <div class="no-recipe-message"></div>
@@ -40,17 +42,17 @@
             <section id="filtersSection">                
                 <span id="recipeCount"></span>
                 <div class="filter_ingredients">
-                    <input type="text" id="ingredients" value="Ingrédients" readonly>
+                    <input class="btn-filter" type="text" id="ingredients" value="Ingrédients" readonly>
                     <label class="filters" for="ingredients"><span><i class="fa-solid fa-chevron-down triDown"></i></span></label>
                     <div class="filter_ingredients_container"></div>
                 </div>
                 <div class="filter_appareils">
-                    <input type="text" id="appareils" value="Appareils" readonly>
+                    <input class="btn-filter" type="text" id="appareils" value="Appareils" readonly>
                     <label class="filters" for="appareils"><span><i class="fa-solid fa-chevron-down triDown"></i></span></label>
                     <div class="filter_appareils_container"></div>
                 </div>
                 <div class="ustencils">
-                    <input type="text" id="ustencils" value="Ustensiles" readonly>
+                    <input class="btn-filter" type="text" id="ustencils" value="Ustensiles" readonly>
                     <label class="filters" for="ustencils"><span><i class="fa-solid fa-chevron-down triDown"></i></span></label>
                     <div class="filter_ustencils_container"></div>
                 </div>

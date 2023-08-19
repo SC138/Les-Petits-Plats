@@ -64,6 +64,8 @@ function searchRecipes(searchText, recipes) {
         // Renvoie vrai si l'une des conditions est remplie
         return nameFound || descriptionFound || ingredientFound;
     });
+
+    
 }
 
 

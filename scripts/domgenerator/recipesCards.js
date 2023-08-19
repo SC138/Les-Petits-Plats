@@ -82,6 +82,8 @@ function generateRecipeCard(recipesData) {
         return ingredientsRecipe;
     }
 
+
+
     // Retourne les propriétés de la recette et fonction 'recipeCard'
     return {id, name, servings, ingredients, time, description, appliance, ustensils, recipeCard};
 }

@@ -90,12 +90,22 @@ input{
     font-size: large;
 }
 
-.button_submit{
+.erase{
+    position: absolute;
+    font-size: 25px;
+    color: gray;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    right: 320px;
+    display: none;
+}
+
+.img_submit{
     position: absolute;
     background-color: transparent;
     border: none;
-    right: 240px;
-    cursor: pointer;
+    right: 250px;
 }
 
 .no-recipe-message{

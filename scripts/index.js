@@ -4,6 +4,8 @@ import { generateRecipeCard } from './domgenerator/recipesCards.js';
 // Importe la fonction 'displayRecipes' depuis le fichier 'displayRecipes.js' dans le dossier 'features'
 import { displayRecipes, searchRecipes } from './features/displayRecipes.js';
 
+import {FiltersTags} from './utils/filters.js';
+
 
 // Fonction asynchrone pour récupérer les recettes depuis le fichier JSON
 async function getRecipes(){
@@ -33,63 +35,75 @@ function init() {
         
         // Affiche les recettes 
         displayRecipes(recipes);
+
+        // Envoie le résultat du fetch dans le FiltersTags
+        const filters = new FiltersTags(recipes);
+        console.log(filters.filteredAppliances());
+        filters.filteredIngredients();
+        filters.filteredAppliances();
+        filters.filteredUstensils();
+        
     });
 }
 
-// Zone de recherche : search barre
-// // Écouteur d'événements d'entrée sur l'élément de recherche
-// document.querySelector('.search input').addEventListener('input', function(event) {
-//     // Récupére le texte tapé dans la search barre et le convertir en minuscules
-//     const searchText = event.target.value.toLowerCase();
-    
-//     // Si la barre de recherche est vide, afficher toutes les recettes
-//     if (searchText.length === 0) {
-//         getRecipes().then(recipes => {
-//             displayRecipes(recipes);
-//         });
-//     }
-//     // Sinon, vérifier si la longueur du texte saisi est d'au moins 3 caractères
-//     else if (searchText.length >= 3) {
-//         // Récupére les recettes
-//         getRecipes().then(recipes => {
-//             // Filtre les recettes en fonction du texte saisi
-//             const filteredRecipes = searchRecipes(searchText, recipes);
-//             // Affiche les recettes filtrées à l'écran
-//             displayRecipes(filteredRecipes);
-//         });
-//     }
-// });
+// Sélection des éléments de la search bar et du bouton d'effacement
+const searchInput = document.querySelector('.search input');
+const erase = document.querySelector('.erase');
 
 // Écouteur d'événements d'entrée sur l'élément de recherche
-document.querySelector('.search input').addEventListener('input', function(event) {
+searchInput.addEventListener('input', function(event) {
     // Récupère le texte entré dans la search barre et le convertit en minuscules
     const searchText = event.target.value.toLowerCase();
 
     // Si au moins 3 caractères dans la search barre
     if(searchText.length >= 3) {
+        erase.style.display = 'block';
         // Récupére les recettes
         getRecipes().then(recipes => {
             const filteredRecipes = searchRecipes(searchText, recipes);
-            
             // Si aucune recette ne correspond à la recherche
             if(filteredRecipes.length === 0) {
                 const errorMessage = `Aucune recette ne contient '${searchText}'. Vous pouvez chercher "tarte aux pommes", "poisson", etc.`;
                 document.querySelector('.no-recipe-message').textContent = errorMessage;
                 // Vide la section des recettes
-                displayRecipes([]);  
+                displayRecipes([]);
             } else {
                 // Affiche les recettes qui correspondent à la recherche et efface le message d'erreur
                 document.querySelector('.no-recipe-message').textContent = '';  
                 displayRecipes(filteredRecipes);
             }
         });
+        // Si la barre de recherche est vide affiche toutes les recettes
     } else if(searchText.length === 0) {
-        // Si la barre de recherche est vide, affiche toutes les recettes
+        // Masque le bouton d'effacement
+        erase.style.display= 'none';
+        
+        // Affiche toutes les recettes
         getRecipes().then(recipes => {
-            // Efface le message d'erreur
             document.querySelector('.no-recipe-message').textContent = '';  
             displayRecipes(recipes);
         });
+    }
+});
+
+// Ajout d'un écouteur d'événements sur le bouton d'effacement
+erase.addEventListener('click', () => {
+    // Efface le contenu de la search bar
+    searchInput.value = '';
+    // Masque le bouton d'effacement
+    erase.style.display = 'none';
+    // Récupération et affichage de toutes les recettes
+    getRecipes().then(recipes => {
+        document.querySelector('.no-recipe-message').textContent = '';  
+        displayRecipes(recipes);
+    });
+});
+
+
+const filtersSection = document.getElementById('filtersSection');
+filtersSection.addEventListener('click',(e)=>{
+    if(e.target.className == 'btn-filter'){
+            console.log(e.target.id)
     }
 });
 
