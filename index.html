@@ -39,25 +39,41 @@
         </div>
         </header>
         <main>
+            <!-- <div id="tagsContainer"></div> -->
             <section id="filtersSection">                
                 <span id="recipeCount"></span>
-                <div class="filter_ingredients">
-                    <input class="btn-filter" type="text" id="ingredients" value="Ingrédients" readonly>
-                    <label class="filters" for="ingredients"><span><i class="fa-solid fa-chevron-down triDown"></i></span></label>
-                    <div class="filter_ingredients_container"></div>
+                <div class="menu-wrapper">
+                    <div class="filter_ingredients">
+                        <div class="input-container">
+                            <input class="btn-filter" type="text" id="ingredients" value="Ingrédients" readonly>
+                            <label class="filters" for="ingredients"><span><i class="fa-solid fa-chevron-down triDown"></i></span></label>
+                        </div>                        
+                        <div class="filter_ingredients_container"></div>
+                        <div class="filter_ingredients_tags"></div>
+                    </div>
                 </div>
-                <div class="filter_appareils">
-                    <input class="btn-filter" type="text" id="appareils" value="Appareils" readonly>
-                    <label class="filters" for="appareils"><span><i class="fa-solid fa-chevron-down triDown"></i></span></label>
-                    <div class="filter_appareils_container"></div>
+                <div class="menu-wrapper">
+                    <div class="filter_appareils">
+                        <div class="input-container">
+                            <input class="btn-filter" type="text" id="appareils" value="Appareils" readonly>
+                            <label class="filters" for="appareils"><span><i class="fa-solid fa-chevron-down triDown"></i></span></label>
+                        </div>                        
+                        <div class="filter_appareils_container"></div>
+                        <div class="filter_appareils_tags"></div>
+                    </div>
                 </div>
-                <div class="ustencils">
-                    <input class="btn-filter" type="text" id="ustencils" value="Ustensiles" readonly>
-                    <label class="filters" for="ustencils"><span><i class="fa-solid fa-chevron-down triDown"></i></span></label>
-                    <div class="filter_ustencils_container"></div>
-                </div>
-                
+                <div class="menu-wrapper">
+                    <div class="filter_ustencils">
+                        <div class="input-container">
+                            <input class="btn-filter" type="text" id="ustencils" value="Ustensiles" readonly>
+                            <label class="filters" for="ustencils"><span><i class="fa-solid fa-chevron-down triDown"></i></span></label>
+                        </div>
+                        <div class="filter_ustencils_container"></div>
+                        <div class="filter_ustencils_tags"></div>
+                    </div>
+                </div>                
             </section>
+            
             
             <div class="recipes_section"></div>
             

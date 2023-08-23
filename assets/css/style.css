@@ -90,6 +90,7 @@ input{
     font-size: large;
 }
 
+
 .erase{
     position: absolute;
     font-size: 25px;
@@ -129,31 +130,77 @@ main{
 }
 
 /* Filtres ------------------------------------*/
+
+.tag {
+    width: 100%;
+    height: 56px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 10px;
+    background-color: #FFD15B;
+    font-family: 'Manrope', sans-serif;
+    font-weight: bold;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+}
+
+
 #filtersSection {
+    width: 3000px;
     display: flex;
     justify-content: flex-start;
-    align-items: center; 
-    padding: 30px 0 30px 0; 
-    margin-left: 75px;
+    align-items: start; /* aligne les éléments au sommet */
+    gap: 50px; /* espace entre les menus, remplace margin-right */
+    padding: 30px 0 30px 75px; 
 }
+
+.filter-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 30%;  
+    position: relative;
+    min-height: 150px; /* ou la hauteur minimale que vous voulez */
+}
+
 
 
 .filter_ingredients,
 .filter_appareils,
-.ustencils {
-    width: 15%; 
+.filter_ustencils {
+    width: 100%;
     box-sizing: border-box; 
     position: relative; 
     margin-right: 50px;
 }
 
-
-.filter_ingredients input,
-.filter_appareils input,
-.ustencils input {
+.filter_ingredients_tags, .filter_appareils_tags, .filter_ustencils_tags {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 5px; 
     width: 100%;
-    height: 5vh;
-    box-sizing: border-box; 
+    margin-top: 10px; 
+}
+
+.input-container {
+    display: flex;
+    align-items: center;
+    height: 56px; /* Hauteur de l'input */
+    position: relative;
+    width: 100%;
+}
+
+
+.filter_ingredients > input,
+.filter_appareils > input,
+.filter_ustencils > input {
+    width: 100%;
+    height: 56px;
+    box-sizing: border-box;
+}
+
+.btn-filter{
+    cursor: pointer;
 }
 
 .filters {
@@ -162,7 +209,95 @@ main{
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer; 
+    display: flex;
+    align-items: center;
 }
+
+
+.filter_ingredients_container,
+.filter_appareils_container,
+.filter_ustencils_container {
+    display: none;
+    height: 280px;
+    width: 100%;
+    position: absolute;
+    display: none;
+    background-color: white;
+    border-radius: 10px;
+    overflow: scroll;
+    z-index: 1;
+    /* Permet de masquer la scrollbar qui dépassait  */
+    -webkit-mask-image: radial-gradient(circle at center, black 99%, transparent 100%);
+    mask-image: radial-gradient(circle at center, black 99%, transparent 100%);
+}
+
+/* Style de la scrollbar des filtres ------------------------------------ */
+.filter_ingredients_container::-webkit-scrollbar,
+.filter_appareils_container::-webkit-scrollbar,
+.filter_ustencils_container::-webkit-scrollbar {
+    /* Largeur de la scrollbar */
+    width: 4px;  
+    height: 0;
+    border-radius: 20px;
+}
+
+.filter_ingredients_container::-webkit-scrollbar-thumb,
+.filter_appareils_container::-webkit-scrollbar-thumb,
+.filter_ustencils_container::-webkit-scrollbar-thumb {
+    /* Couleur de la scrollbar */
+    background-color: #aaa;  
+    border-radius: 4px;
+}
+
+.filter_ingredients_container::-webkit-scrollbar-track,
+.filter_appareils_container::-webkit-scrollbar-track,
+.filter_ustencils_container::-webkit-scrollbar-track {
+    /* Background de la scrollbar */
+    background-color: #f1f1f1;  
+}
+
+
+.filter_ingredients_container > input,
+.filter_appareils_container > input,
+.filter_ustencils_container > input {
+    width: 90%;
+    height: 3vh;
+    display: flex;
+    margin: auto;
+    border: grey solid 1px;
+    border-radius: 2px;
+}
+
+.searchBar{
+    position: relative;
+    height: 40px;
+}
+
+.img_submit_filters {
+    width: auto;
+    position: absolute;
+    right: 15px; /* ou la valeur que vous préférez */
+    top: 19px;
+    transform: translateY(-50%); 
+    height: 10%;
+    filter: invert(1) brightness(110%);
+}
+
+.elementP{
+    font-family: 'Manrope', sans-serif;
+    font-weight: bold;
+    padding-left: 20px ;
+    height: 15%;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.elementP:hover{
+    background-color: #FFD15B;
+}
+
+
 
 /* Nombre de recettes ------------------------------ */
 #recipeCount{

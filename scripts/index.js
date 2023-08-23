@@ -6,6 +6,8 @@ import { displayRecipes, searchRecipes } from './features/displayRecipes.js';
 
 import {FiltersTags} from './utils/filters.js';
 
+import { DisplayTags } from './utils/displayTags.js';
+
 
 // Fonction asynchrone pour récupérer les recettes depuis le fichier JSON
 async function getRecipes(){
@@ -38,11 +40,13 @@ function init() {
 
         // Envoie le résultat du fetch dans le FiltersTags
         const filters = new FiltersTags(recipes);
-        console.log(filters.filteredAppliances());
         filters.filteredIngredients();
         filters.filteredAppliances();
         filters.filteredUstensils();
-        
+
+        new DisplayTags(recipes);
+
+
     });
 }
 
@@ -103,7 +107,6 @@ erase.addEventListener('click', () => {
 const filtersSection = document.getElementById('filtersSection');
 filtersSection.addEventListener('click',(e)=>{
     if(e.target.className == 'btn-filter'){
-            console.log(e.target.id)
     }
 });
 
