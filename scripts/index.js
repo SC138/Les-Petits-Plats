@@ -2,11 +2,12 @@
 import { generateRecipeCard } from './domgenerator/recipesCards.js';
 
 // Importe la fonction 'displayRecipes' depuis le fichier 'displayRecipes.js' dans le dossier 'features'
-import { displayRecipes, searchRecipes } from './features/displayRecipes.js';
+import { displayRecipes, searchRecipes, arrayrecipes, clearArrayRecipes } from './features/displayRecipes.js';
 
 import {FiltersTags} from './utils/filters.js';
 
 import { DisplayTags } from './utils/displayTags.js';
+
 
 
 // Fonction asynchrone pour récupérer les recettes depuis le fichier JSON
@@ -56,7 +57,7 @@ const erase = document.querySelector('.erase');
 
 // Écouteur d'événements d'entrée sur l'élément de recherche
 searchInput.addEventListener('input', function(event) {
-    // Récupère le texte entré dans la search barre et le convertit en minuscules
+    // Récupère le texte entré dans la search bar et le convertit en minuscules
     const searchText = event.target.value.toLowerCase();
 
     // Si au moins 3 caractères dans la search barre
@@ -64,24 +65,36 @@ searchInput.addEventListener('input', function(event) {
         erase.style.display = 'block';
         // Récupére les recettes
         getRecipes().then(recipes => {
-            const filteredRecipes = searchRecipes(searchText, recipes);
+            let filteredRecipes = searchRecipes(searchText, recipes);
+            // console.log(searchText);
+            
+
             // Si aucune recette ne correspond à la recherche
             if(filteredRecipes.length === 0) {
                 const errorMessage = `Aucune recette ne contient '${searchText}'. Vous pouvez chercher "tarte aux pommes", "poisson", etc.`;
                 document.querySelector('.no-recipe-message').textContent = errorMessage;
                 // Vide la section des recettes
                 displayRecipes([]);
+                clearArrayRecipes();
             } else {
                 // Affiche les recettes qui correspondent à la recherche et efface le message d'erreur
                 document.querySelector('.no-recipe-message').textContent = '';  
                 displayRecipes(filteredRecipes);
+                if(arrayrecipes.includes(filteredRecipes)){
+                    return;
+                }
+                arrayrecipes.push(filteredRecipes);
+
+                // console.log(arrayrecipes)
             }
         });
         // Si la barre de recherche est vide affiche toutes les recettes
     } else if(searchText.length === 0) {
         // Masque le bouton d'effacement
         erase.style.display= 'none';
-        
+        // if(arrayrecipes.length > 0){
+        //     arrayrecipes = [];
+        // }
         // Affiche toutes les recettes
         getRecipes().then(recipes => {
             document.querySelector('.no-recipe-message').textContent = '';  

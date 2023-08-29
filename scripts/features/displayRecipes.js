@@ -1,6 +1,9 @@
 // Importation de la fonction qui génère une carte de recette
 import { generateRecipeCard } from "../../scripts/domgenerator/recipesCards.js";
-
+export let arrayrecipes = [];
+export function clearArrayRecipes() {
+    arrayrecipes = [];
+}
 
 
 // Fonction pour mettre à jour le compte des recettes affichées
@@ -39,14 +42,15 @@ function displayRecipes(recipes) {
         // Crée un élément DOM pour cette recette
         const recipeDOM = recipeModel.recipeCard();
         // Ajoute cet élément à la section des recettes
-        recipesSection.appendChild(recipeDOM);
+        recipesSection.appendChild(recipeDOM);  
+        
     });
 
     // Met à jour le compte des recettes après les avoir toutes ajoutées
     updateRecipeCount();
 }
 
-// Fonction pour la search barre
+// Fonction pour la search bar
 function searchRecipes(searchText, recipes) {
     // Filtre les recettes basées sur le texte recherché
     return recipes.filter(recipe => {
@@ -59,8 +63,8 @@ function searchRecipes(searchText, recipes) {
         // Vérifie si l'un des ingrédients de la recette contient le texte recherché
         let ingredientFound = recipe.ingredients.some(ingredient => {
             return ingredient.ingredient.toLowerCase().includes(searchText);
-        });
-
+        });     
+        // console.log(recipe);
         // Renvoie vrai si l'une des conditions est remplie
         return nameFound || descriptionFound || ingredientFound;
     });
@@ -72,3 +76,4 @@ function searchRecipes(searchText, recipes) {
 
 // Export de de la fonction 'displayRecipes' pour pouvoir l'utiliser ailleurs dans le code
 export { displayRecipes, searchRecipes };
+

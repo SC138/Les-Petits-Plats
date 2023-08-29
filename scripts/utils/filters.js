@@ -1,3 +1,5 @@
+import { arrayrecipes } from "../features/displayRecipes.js";
+
 // Génère des listes filtrées à partir des recettes
 class FiltersTags {
     // Constructeur: Prend en entrée les recettes à traiter.
@@ -13,20 +15,42 @@ class FiltersTags {
     _filterUnique(attribute, subAttribute = null) {
         // Stockage temporaire pour tous les éléments(ingrédients, appareils, ustensiles)
         let allItems = []; 
-        
-        // Parcourir chaque recette
-        for (let recipe of this.recipes) {
-            // Si une sous-propriété est spécifiée, la traiter
-            if (subAttribute) {
-                // item = un ingrédient, oú un appareil, oú un ustensile
-                for (let item of recipe[attribute]) {
-                    allItems.push(item[subAttribute]);
+
+        if(arrayrecipes.length >= 1){
+            console.log(arrayrecipes);
+            for (let i = 0; i < arrayrecipes.length; i++){
+                for (let j = 0; j < arrayrecipes[i].length; j++){
+                    for(let recipe of arrayrecipes[i]){
+                        if (subAttribute) {
+                            // item = un ingrédient, oú un appareil, oú un ustensile
+                            for (let item of recipe[attribute]) {
+                                allItems.push(item[subAttribute]);
+                            } 
+                        } else {
+                            // Sinon, traiter la propriété principale
+                            allItems.push(recipe[attribute]);
+                        }
+                    }
+
                 }
-            } else {
-                // Sinon, traiter la propriété principale
-                allItems.push(recipe[attribute]);
+                
+            }
+        }else {
+            // Parcourir chaque recette
+            for (let recipe of this.recipes) {
+                // Si une sous-propriété est spécifiée, la traiter
+                if (subAttribute) {
+                    // item = un ingrédient, oú un appareil, oú un ustensile
+                    for (let item of recipe[attribute]) {
+                        allItems.push(item[subAttribute]);
+                    }
+                } else {
+                    // Sinon, traiter la propriété principale
+                    allItems.push(recipe[attribute]);
+                }
             }
         }
+
 
         // Met à plat le tableau ustensiles
         if (attribute === 'ustensils') {

@@ -147,7 +147,6 @@ main{
 
 
 #filtersSection {
-    width: 3000px;
     display: flex;
     justify-content: flex-start;
     align-items: start; 
@@ -155,10 +154,8 @@ main{
     padding: 30px 0 30px 75px; 
 }
 
-.filter-wrapper {
-    display: flex;
-    flex-direction: column;
-    width: 30%;  
+.menu-wrapper {
+    width: 20%;  
     position: relative;
     min-height: 150px; 
 }
@@ -189,7 +186,8 @@ main{
     align-items: center;
     height: 56px; 
     position: relative;
-    width: 100%;
+    background-color: white;
+    border-radius: 10px;
 }
 
 
@@ -202,7 +200,9 @@ main{
 }
 
 .btn-filter{
+    width: 100%;
     cursor: pointer;
+    height: 50px;
 }
 
 .filters {
@@ -225,7 +225,7 @@ main{
     position: absolute;
     display: none;
     background-color: white;
-    border-radius: 10px;
+    border-radius: 0 0 10px 10px;
     overflow: scroll;
     z-index: 1;
     /* Permet de masquer la scrollbar qui dépassait  */
@@ -263,22 +263,20 @@ main{
 .filter_appareils_container > input,
 .filter_ustencils_container > input {
     width: 90%;
-    height: 3vh;
+    height: 40px;
     display: flex;
     margin: auto;
     border: grey solid 1px;
     border-radius: 2px;
+    padding-right: 30px;
 }
 
-.searchBar{
-    position: relative;
-    height: 40px;
-}
+
 
 .img_submit_filters {
     width: auto;
     position: absolute;
-    right: 15px; /* ou la valeur que vous préférez */
+    right: 15px; 
     top: 19px;
     transform: translateY(-50%); 
     height: 10%;
