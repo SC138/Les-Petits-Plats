@@ -75,7 +75,6 @@ searchInput.addEventListener('input', function(event) {
                 document.querySelector('.no-recipe-message').textContent = errorMessage;
                 // Vide la section des recettes
                 displayRecipes([]);
-                clearArrayRecipes();
             } else {
                 // Affiche les recettes qui correspondent à la recherche et efface le message d'erreur
                 document.querySelector('.no-recipe-message').textContent = '';  
