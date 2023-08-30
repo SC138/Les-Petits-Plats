@@ -86,27 +86,6 @@ function searchRecipes(searchText, recipes) {
 
 }
 
-// // Fonction pour la search bar
-// function searchRecipes(searchText, recipes) {
-//     // Filtre les recettes basées sur le texte recherché
-//     return recipes.filter(recipe => {
-//         // Vérifie si le nom de la recette contient le texte recherché
-//         let nameFound = recipe.name.toLowerCase().includes(searchText);
-        
-//         // Vérifie si la description de la recette contient le texte recherché
-//         let descriptionFound = recipe.description.toLowerCase().includes(searchText);
-
-//         // Vérifie si l'un des ingrédients de la recette contient le texte recherché
-//         let ingredientFound = recipe.ingredients.some(ingredient => {
-//             return ingredient.ingredient.toLowerCase().includes(searchText);
-//         });     
-//         // console.log(recipe);
-//         // Renvoie vrai si l'une des conditions est remplie
-//         return nameFound || descriptionFound || ingredientFound;
-//     });
-
-    
-// }
 
 
 

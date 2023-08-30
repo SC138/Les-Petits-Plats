@@ -23,6 +23,9 @@ class DisplayTags {
 
         // Écouteur d'event au click sur un élément de la liste
         document.addEventListener('click', this.onTagSelected.bind(this));
+
+        // Écouteur d'event au click en dehors des menus
+        document.addEventListener('click', this.closeMenuOnClickOutside.bind(this));
     }
 
     onTagSelected(event) {
@@ -141,6 +144,21 @@ class DisplayTags {
             // Ajout de l'élément <p> au conteneur
             tagContainer.appendChild(elementP); 
         });
+    }
+
+    // Méthode pour fermer les menus en cliquant ailleurs que sur les menus
+    closeMenuOnClickOutside(event) {
+        // Si le clic n'est pas sur un menu, fermer le/les menus
+        if (!event.target.closest('.filter_ingredients_container') && 
+            !event.target.closest('.filter_appareils_container') && 
+            !event.target.closest('.filter_ustencils_container') &&
+            !event.target.closest('.btn-filter')) {
+            
+            // Masque les menus    
+            this.divIngredients.style.display = 'none';
+            this.divAppareils.style.display = 'none';
+            this.divUstencils.style.display = 'none';
+        }
     }
 
 }

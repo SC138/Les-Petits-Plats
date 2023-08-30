@@ -28,78 +28,77 @@ async function getRecipes(){
 
 
 // Fonction pour initialiser l'application
-function init() {
+async function init() {
     // Appelle la fonction 'getRecipes' pour obtenir les recettes
-    getRecipes()
-    .then((recipes) => { // Une fois les recettes obtenues
+    const recipes = await getRecipes()
 
-        // Génère des cartes de recettes pour chaque recette
-        generateRecipeCard(recipes);
-        
-        // Affiche les recettes 
-        displayRecipes(recipes);
+    // Génère des cartes de recettes pour chaque recette
+    generateRecipeCard(recipes);
 
-        // Envoie le résultat du fetch dans le FiltersTags
-        const filters = new FiltersTags(recipes);
-        filters.filteredIngredients();
-        filters.filteredAppliances();
-        filters.filteredUstensils();
+    // Affiche les recettes 
+    displayRecipes(recipes);
 
-        new DisplayTags(recipes);
+    // Envoie le résultat du fetch dans le FiltersTags
+    const filters = new FiltersTags(recipes);
+    filters.filteredIngredients();
+    filters.filteredAppliances();
+    filters.filteredUstensils();
 
-
-    });
+    new DisplayTags(recipes);
 }
 
 // Sélection des éléments de la search bar et du bouton d'effacement
 const searchInput = document.querySelector('.search input');
 const erase = document.querySelector('.erase');
 
+function reloadAllRecipes() {
+    // Masque le bouton d'effacement
+    erase.style.display= 'none';
+
+    clearArrayRecipes();
+
+    // Affiche toutes les recettes
+    getRecipes().then(recipes => {
+        document.querySelector('.no-recipe-message').textContent = '';  
+        displayRecipes(recipes);
+    });
+}
+
 // Écouteur d'événements d'entrée sur l'élément de recherche
-searchInput.addEventListener('input', function(event) {
+searchInput.addEventListener('input', async function(event) {
     // Récupère le texte entré dans la search bar et le convertit en minuscules
     const searchText = event.target.value.toLowerCase();
 
-    // Si au moins 3 caractères dans la search barre
-    if(searchText.length >= 3) {
-        erase.style.display = 'block';
-        // Récupére les recettes
-        getRecipes().then(recipes => {
-            let filteredRecipes = searchRecipes(searchText, recipes);
-            // console.log(searchText);
-            
-
-            // Si aucune recette ne correspond à la recherche
-            if(filteredRecipes.length === 0) {
-                const errorMessage = `Aucune recette ne contient '${searchText}'. Vous pouvez chercher "tarte aux pommes", "poisson", etc.`;
-                document.querySelector('.no-recipe-message').textContent = errorMessage;
-                // Vide la section des recettes
-                displayRecipes([]);
-            } else {
-                // Affiche les recettes qui correspondent à la recherche et efface le message d'erreur
-                document.querySelector('.no-recipe-message').textContent = '';  
-                displayRecipes(filteredRecipes);
-                if(arrayrecipes.includes(filteredRecipes)){
-                    return;
-                }
-                arrayrecipes.push(filteredRecipes);
-
-                // console.log(arrayrecipes)
-            }
-        });
-        // Si la barre de recherche est vide affiche toutes les recettes
-    } else if(searchText.length === 0) {
-        // Masque le bouton d'effacement
-        erase.style.display= 'none';
-
-        clearArrayRecipes();
-
-        // Affiche toutes les recettes
-        getRecipes().then(recipes => {
-            document.querySelector('.no-recipe-message').textContent = '';  
-            displayRecipes(recipes);
-        });
+    if(searchText.length === 0) {
+        return reloadAllRecipes()
     }
+
+    if (searchText.length < 3) {
+        // Si la barre de recherche est vide laisse toutes les recettes affichées
+        return;
+    }
+
+    // Si au moins 3 caractères dans la search barre
+    erase.style.display = 'block';
+    // Récupére les recettes
+    const recipes = await getRecipes()
+   
+    let filteredRecipes = searchRecipes(searchText, recipes);    
+    // Si aucune recette ne correspond à la recherche
+    if(filteredRecipes.length === 0) {
+        const errorMessage = `Aucune recette ne contient '${searchText}'. Vous pouvez chercher "tarte aux pommes", "poisson", etc.`;
+        document.querySelector('.no-recipe-message').textContent = errorMessage;
+        // Vide la section des recettes
+        displayRecipes([]);
+
+        return;
+    }
+
+    // Affiche les recettes qui correspondent à la recherche et efface le message d'erreur
+    document.querySelector('.no-recipe-message').textContent = '';  
+    displayRecipes(filteredRecipes);
+    clearArrayRecipes()
+    arrayrecipes.push(filteredRecipes);
 });
 
 // Ajout d'un écouteur d'événements sur le bouton d'effacement
@@ -127,6 +126,4 @@ filtersSection.addEventListener('click',(e)=>{
 
 
 // Appelle la fonction 'init' pour démarrer l'application
-init();
-
-
+await init();
