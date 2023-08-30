@@ -17,7 +17,6 @@ class FiltersTags {
         let allItems = []; 
 
         if(arrayrecipes.length >= 1){
-            console.log(arrayrecipes);
             for (let i = 0; i < arrayrecipes.length; i++){
                 for (let j = 0; j < arrayrecipes[i].length; j++){
                     for(let recipe of arrayrecipes[i]){
@@ -31,9 +30,7 @@ class FiltersTags {
                             allItems.push(recipe[attribute]);
                         }
                     }
-
-                }
-                
+                }                
             }
         }else {
             // Parcourir chaque recette
