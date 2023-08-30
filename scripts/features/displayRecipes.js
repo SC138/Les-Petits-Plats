@@ -51,43 +51,26 @@ function displayRecipes(recipes) {
 }
 
 
-// Fonction pour la search bar
 function searchRecipes(searchText, recipes) {
-    // Création d'un tableau vide
-    let recipeFilter = [];
-    // Boucle sur toutes les recettes
-    for(let i = 0; i < recipes.length; i++){
-        // Si la recherche est contnue dans le nom ou la description 
-        if(recipes[i].name.toLowerCase().includes(searchText) || recipes[i].description.toLowerCase().includes(searchText)){
-            // Si le tableau contiens la recette
-            if(recipeFilter.includes(recipes[i])){
-                // On continue le code en échapant la recette
-                continue;
-            }
-            // Sinon on ajoute la recette au tableau
-            recipeFilter.push(recipes[i]);
-        }
-        // Boucle sur tous les tableaux ingrédients de chaque recettes
-        for(let j = 0; j < recipes[i].ingredients.length; j++){
-            // Si la recherche est contenue dans un ingrédient
-            if(recipes[i].ingredients[j].ingredient.toLowerCase().includes(searchText)){
-                // Si le tableau contiens la recette 
-                if(recipeFilter.includes(recipes[i])){
-                    // On continue le code en échapant la recette
-                    continue;
-                }
-                // Sinon on ajoute la recette au tableau
-                recipeFilter.push(recipes[i]);
-                
-            }
-        }
-    }
-    // Affiche le résultat filtré
-    return recipeFilter;
+    // Filtre les recettes basées sur le texte recherché
+    return recipes.filter(recipe => {
+        // Vérifie si le nom de la recette contient le texte recherché
+        let nameFound = recipe.name.toLowerCase().includes(searchText);
+        
+        // Vérifie si la description de la recette contient le texte recherché
+        let descriptionFound = recipe.description.toLowerCase().includes(searchText);
 
+        // Vérifie si l'un des ingrédients de la recette contient le texte recherché
+        let ingredientFound = recipe.ingredients.some(ingredient => {
+            return ingredient.ingredient.toLowerCase().includes(searchText);
+        });     
+        // console.log(recipe);
+        // Renvoie vrai si l'une des conditions est remplie
+        return nameFound || descriptionFound || ingredientFound;
+    });
+
+    
 }
-
-
 
 // Export de de la fonction 'displayRecipes' pour pouvoir l'utiliser ailleurs dans le code
 export { displayRecipes, searchRecipes };
