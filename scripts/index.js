@@ -75,7 +75,6 @@ searchInput.addEventListener('input', function(event) {
                 document.querySelector('.no-recipe-message').textContent = errorMessage;
                 // Vide la section des recettes
                 displayRecipes([]);
-                clearArrayRecipes();
             } else {
                 // Affiche les recettes qui correspondent à la recherche et efface le message d'erreur
                 document.querySelector('.no-recipe-message').textContent = '';  
@@ -92,9 +91,9 @@ searchInput.addEventListener('input', function(event) {
     } else if(searchText.length === 0) {
         // Masque le bouton d'effacement
         erase.style.display= 'none';
-        // if(arrayrecipes.length > 0){
-        //     arrayrecipes = [];
-        // }
+
+        clearArrayRecipes();
+
         // Affiche toutes les recettes
         getRecipes().then(recipes => {
             document.querySelector('.no-recipe-message').textContent = '';  
@@ -109,6 +108,9 @@ erase.addEventListener('click', () => {
     searchInput.value = '';
     // Masque le bouton d'effacement
     erase.style.display = 'none';
+
+    clearArrayRecipes();
+    
     // Récupération et affichage de toutes les recettes
     getRecipes().then(recipes => {
         document.querySelector('.no-recipe-message').textContent = '';  
