@@ -1,4 +1,9 @@
 import { FiltersTags} from "./filters.js";
+import { displayRecipes } from "../features/displayRecipes.js";
+let selectedIngredientTags = [];
+let selectedApplianceTags = [];
+let selectedUtensilTags = [];
+// let selectedIngredientTags = new Set();
 
 class DisplayTags {
     constructor(recipes) {
@@ -12,6 +17,10 @@ class DisplayTags {
         this.divIngredients = document.querySelector('.filter_ingredients_container');
         this.divAppareils = document.querySelector('.filter_appareils_container');
         this.divUstencils = document.querySelector('.filter_ustencils_container');
+
+        this.selectedIngredientTags = [];
+        this.selectedApplianceTags = [];
+        this.selectedUtensilTags = [];
 
         // Ajoute un écouteur d'événements 'click' à chaque bouton filtré pour appeler 'displayTag'
         // Fait en sorte que 'this' se réfère bien à l'instance de la classe DisplayTags
@@ -28,11 +37,74 @@ class DisplayTags {
         document.addEventListener('click', this.closeMenuOnClickOutside.bind(this));
     }
 
+
+    
     onTagSelected(event) {
         // Vérifie si l'élément clique a bien la class 'elementP'
         if (event.target.matches('.elementP')) {
             // Si oui, ajout du tag à la liste de tag
-            this.addTag(event.target.innerText, event.target);
+            const tagName = event.target.innerText;
+            // Appelle la focntion addTag pour ajouter ce nopuveau tag
+            this.addTag(tagName, event.target);
+
+            // Si l'élément est un ingrédient
+            if(event.target.classList.contains('ingredients')){
+                // Ajoute le tag d'ingrédient à la liste des tags d'ingrédients sélectionnés
+                this.selectedIngredientTags.push(tagName);
+
+                // Filtre les recettes en focntion des ingrédients sélectionnés
+                const filteredRecipes = this.recipes.filter(recipe => 
+                    // Méthode every qui permet d'être sur que chaque tag d'appareil sélectionné
+                    // est dans au moins une recette
+                    this.selectedIngredientTags.every(tag => 
+                        // Utilise some() (true ou false) pour vérifier si au moins un ingrédients de la recette
+                        // contient le tag recherché
+                        recipe.ingredients.some(ingredient => 
+                            // Vérifie si le tag est inclus dans le nom de l'ingrédient
+                            ingredient.ingredient.toLowerCase().includes(tag.toLowerCase())
+                        )
+                    )
+                );
+                displayRecipes(filteredRecipes)            
+            }
+            // Gestion des tags d'appareils
+            else if(event.target.classList.contains('appareils')){
+                this.selectedApplianceTags.push(tagName);
+                // Filtre des recettes par appareil
+                const filteredRecipes = this.recipes.filter(recipe => 
+                    // Vérifie que les tag sont inclus dans l'appareil de la recette
+                    this.selectedApplianceTags.every(tag => 
+                        recipe.appliance.toLowerCase().includes(tag.toLowerCase())
+                    )
+                );
+                displayRecipes(filteredRecipes);
+            } 
+            // Gestion des tags ustensiles 
+            else if (event.target.classList.contains('ustencils')){
+                this.selectedUtensilTags.push(tagName);
+                
+                //Filtre les recette par ustensiles
+                const filteredRecipes = this.recipes.filter(recipe => 
+                    // Vérifie que chaque tag est dans au moins un des ustensiles de la recette
+                    this.selectedUtensilTags.every(tag => 
+                        recipe.ustensils.some(utensil => 
+                            // Vérifie si le tag est dans le nom de l'ustensile
+                            utensil.toLowerCase().includes(tag.toLowerCase())
+                        )
+                    )
+                );
+                displayRecipes(filteredRecipes);
+            }
+            /** 
+             * TODO
+             * faire comme ingrédient pour ustencils et appareil
+             */
+
+
+            /**
+             * TODO
+             * Attention, quand tu auras fait les 3 il faudra filtré grâce aux 3 en même temps
+             */
         }
     }
 
@@ -65,7 +137,8 @@ class DisplayTags {
         const clickedElementId = event.target.id;
         let containerTag;
         // Stocke les éléments filtrés
-        let filteredItems = [];  
+        let filteredItems = []; 
+        let tagType = ''; 
         
         // Instancie la classe FiltersTags
         const filter = new FiltersTags(this.recipes);
@@ -75,6 +148,7 @@ class DisplayTags {
         if (clickedElementId === 'ingredients') {
             // Affecte le container des ingrédients
             containerTag = this.divIngredients;
+            tagType ='ingredients';
             // Bascule de la visibilité du div des ingrédients
             this.toggleVisibility(this.divIngredients);
             // Filtrage des ingrédients à partir des recettes
@@ -82,6 +156,7 @@ class DisplayTags {
         } else if (clickedElementId === 'appareils') {
             // Affecte le container des appareils
             containerTag = this.divAppareils;
+            tagType = 'appareils';
             // Bascule de la visibilité du div des appareils
             this.toggleVisibility(this.divAppareils);
             // Filtrage des appareils à partir des recettes
@@ -89,17 +164,18 @@ class DisplayTags {
         } else if (clickedElementId === 'ustencils') {
             // Affecte le container des ustensiles
             containerTag = this.divUstencils;
+            tagType ='ustencils';
             // Bascule de la visibilité du div des ustensiles
             this.toggleVisibility(this.divUstencils);
             // Filtrage des ustensiles à partir des recettes
             filteredItems = filter.filteredUstensils();
         }
-    
+
         // Si des éléments sont filtrés et que le conteneur est visible, 
         // alors on crée un champ input et on affiche les éléments filtrés
         if (containerTag.style.display !== 'none') {
             this.createInput(containerTag);
-            this.displayElements(containerTag, filteredItems);
+            this.displayElements(containerTag, filteredItems, tagType);
         }
     }
     
@@ -132,12 +208,13 @@ class DisplayTags {
 
 
     // Affiche les éléments filtrés dans le container de tags
-    displayElements(tagContainer, elements){
+    displayElements(tagContainer, elements, type){
         // Boucle sur chaque éléments filtré
         elements.forEach((item) => {
             // Crée un élément <p>
             const elementP = document.createElement('p');
             elementP.classList.add('elementP');
+            elementP.classList.add(type);
             // Ajout du texte à l'élément <p>
             elementP.textContent = item;  
 

@@ -82,7 +82,7 @@ searchInput.addEventListener('input', async function(event) {
     erase.style.display = 'block';
     // Récupére les recettes
     const recipes = await getRecipes()
-   
+
     let filteredRecipes = searchRecipes(searchText, recipes);    
     // Si aucune recette ne correspond à la recherche
     if(filteredRecipes.length === 0) {

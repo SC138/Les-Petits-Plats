@@ -11,13 +11,12 @@ class FiltersTags {
     // Méthode privée(underscore) '_filterUnique' générique pour filtrer les éléments uniques d'une propriété donnée des recettes.
     // Peut traiter à la fois les propriétés de niveau supérieur (comme "appliance") et les sous-propriétés (comme "ingredient" dans "ingredients").
     // 'null' signifie la valeur par défaut de  'subAttribute'. 
-    // Si pas de second argument fournis pour l'appel de la mnéthode, subAttribute serau automatiquement sur 'null'
+    // Si pas de second argument fournis pour l'appel de la méthode, subAttribute serau automatiquement sur 'null'
     _filterUnique(attribute, subAttribute = null) {
         // Stockage temporaire pour tous les éléments(ingrédients, appareils, ustensiles)
         let allItems = []; 
 
         if(arrayrecipes.length >= 1){
-            console.log(arrayrecipes);
             for (let i = 0; i < arrayrecipes.length; i++){
                 for (let j = 0; j < arrayrecipes[i].length; j++){
                     for(let recipe of arrayrecipes[i]){
@@ -31,9 +30,7 @@ class FiltersTags {
                             allItems.push(recipe[attribute]);
                         }
                     }
-
-                }
-                
+                }                
             }
         }else {
             // Parcourir chaque recette
