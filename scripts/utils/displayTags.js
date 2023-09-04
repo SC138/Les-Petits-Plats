@@ -1,5 +1,5 @@
 import { FiltersTags} from "./filters.js";
-import { displayRecipes } from "../features/displayRecipes.js";
+import { arrayrecipes, displayRecipes, updateArrayRecipes } from "../features/displayRecipes.js";
 let selectedIngredientTags = [];
 let selectedApplianceTags = [];
 let selectedUtensilTags = [];
@@ -9,6 +9,7 @@ class DisplayTags {
     constructor(recipes) {
         // Stocke les recettes fournies à l'instance de la classe
         this.recipes = recipes;
+
 
         // Sélectionne tous les éléments avec la classe .btn-filter
         this.inputs = document.querySelectorAll('.btn-filter');
@@ -54,7 +55,7 @@ class DisplayTags {
 
                 // Filtre les recettes en focntion des ingrédients sélectionnés
                 const filteredRecipes = this.recipes.filter(recipe => 
-                    // Méthode every qui permet d'être sur que chaque tag d'appareil sélectionné
+                    // Méthode every() qui permet d'être sur que chaque tag d'appareil sélectionné
                     // est dans au moins une recette
                     this.selectedIngredientTags.every(tag => 
                         // Utilise some() (true ou false) pour vérifier si au moins un ingrédients de la recette
@@ -65,7 +66,8 @@ class DisplayTags {
                         )
                     )
                 );
-                displayRecipes(filteredRecipes)            
+                displayRecipes(filteredRecipes);
+                updateArrayRecipes(filteredRecipes);                
             }
             // Gestion des tags d'appareils
             else if(event.target.classList.contains('appareils')){
@@ -78,6 +80,7 @@ class DisplayTags {
                     )
                 );
                 displayRecipes(filteredRecipes);
+                updateArrayRecipes(filteredRecipes);     
             } 
             // Gestion des tags ustensiles 
             else if (event.target.classList.contains('ustencils')){
@@ -94,17 +97,8 @@ class DisplayTags {
                     )
                 );
                 displayRecipes(filteredRecipes);
+                updateArrayRecipes(filteredRecipes);     
             }
-            /** 
-             * TODO
-             * faire comme ingrédient pour ustencils et appareil
-             */
-
-
-            /**
-             * TODO
-             * Attention, quand tu auras fait les 3 il faudra filtré grâce aux 3 en même temps
-             */
         }
     }
 
@@ -115,10 +109,13 @@ class DisplayTags {
         // Déterminez le bon conteneur de tags en fonction de l'élément cliqué.
         if (clickedElement.closest('.filter_ingredients')) {
             tagContainer = document.querySelector('.filter_ingredients_tags');
+            this.divIngredients.style.display = 'none';
         } else if (clickedElement.closest('.filter_appareils')) {
             tagContainer = document.querySelector('.filter_appareils_tags');
+            this.divAppareils.style.display = 'none';
         } else if (clickedElement.closest('.filter_ustencils')) {
             tagContainer = document.querySelector('.filter_ustencils_tags');
+            this.divUstencils.style.display = 'none';
         }
 
         // Créez le tag et ajoutez-le au conteneur approprié.
@@ -129,6 +126,10 @@ class DisplayTags {
             tagContainer.appendChild(tag);
         }
     }
+
+
+
+
 
 
     // // Affiche les tags en fonction de l'élément cliqué 
@@ -223,6 +224,7 @@ class DisplayTags {
         });
     }
 
+
     // Méthode pour fermer les menus en cliquant ailleurs que sur les menus
     closeMenuOnClickOutside(event) {
         // Si le clic n'est pas sur un menu, fermer le/les menus
@@ -230,7 +232,6 @@ class DisplayTags {
             !event.target.closest('.filter_appareils_container') && 
             !event.target.closest('.filter_ustencils_container') &&
             !event.target.closest('.btn-filter')) {
-            
             // Masque les menus    
             this.divIngredients.style.display = 'none';
             this.divAppareils.style.display = 'none';

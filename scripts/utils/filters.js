@@ -1,4 +1,5 @@
 import { arrayrecipes } from "../features/displayRecipes.js";
+import { displayRecipes } from "../features/displayRecipes.js";
 
 // Génère des listes filtrées à partir des recettes
 class FiltersTags {
@@ -32,6 +33,7 @@ class FiltersTags {
                     }
                 }                
             }
+
         }else {
             // Parcourir chaque recette
             for (let recipe of this.recipes) {
@@ -46,6 +48,7 @@ class FiltersTags {
                     allItems.push(recipe[attribute]);
                 }
             }
+
         }
 
 

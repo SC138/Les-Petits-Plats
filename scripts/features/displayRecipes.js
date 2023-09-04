@@ -39,11 +39,13 @@ function displayRecipes(recipes) {
     recipes.forEach((recipe) => {
         // Utilise la fonction importée pour générer le modèle de la recette
         const recipeModel = generateRecipeCard(recipe);
+
+
+
         // Crée un élément DOM pour cette recette
         const recipeDOM = recipeModel.recipeCard();
         // Ajoute cet élément à la section des recettes
-        recipesSection.appendChild(recipeDOM);  
-        
+        recipesSection.appendChild(recipeDOM);
     });
 
     // Met à jour le compte des recettes après les avoir toutes ajoutées
@@ -81,14 +83,19 @@ function searchRecipes(searchText, recipes) {
             }
         }
     }
+    updateArrayRecipes(recipeFilter);
     // Affiche le résultat filtré
     return recipeFilter;
+}
 
+function updateArrayRecipes(recipes){
+    clearArrayRecipes();
+    arrayrecipes.push(recipes);
 }
 
 
 
 
 // Export de de la fonction 'displayRecipes' pour pouvoir l'utiliser ailleurs dans le code
-export { displayRecipes, searchRecipes };
+export { displayRecipes, searchRecipes, updateArrayRecipes };
 
