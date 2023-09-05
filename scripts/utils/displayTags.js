@@ -10,6 +10,12 @@ class DisplayTags {
         // Stocke les recettes fournies à l'instance de la classe
         this.recipes = recipes;
 
+        // Stocke les tags dans des tableaux appropriés
+        this.tags = {
+            ingredients: [],
+            appareils: [],
+            ustencils: []
+        };
 
         // Sélectionne tous les éléments avec la classe .btn-filter
         this.inputs = document.querySelectorAll('.btn-filter');
@@ -101,12 +107,13 @@ class DisplayTags {
             }
         }
     }
+    
 
-        // Méthode pour ajouter un tag à la liste des tags.
+    // Méthode pour ajouter un tag à la liste des tags.
     addTag(ingredientName, clickedElement) {
         let tagContainer;
 
-        // Déterminez le bon conteneur de tags en fonction de l'élément cliqué.
+        // Détermine le bon conteneur de tags en fonction de l'élément cliqué.
         if (clickedElement.closest('.filter_ingredients')) {
             tagContainer = document.querySelector('.filter_ingredients_tags');
             this.divIngredients.style.display = 'none';
@@ -118,19 +125,47 @@ class DisplayTags {
             this.divUstencils.style.display = 'none';
         }
 
-        // Créez le tag et ajoutez-le au conteneur approprié.
+        // Création le tag et ajout au conteneur approprié
         if (tagContainer) {
             const tag = document.createElement('div');
             tag.className = 'tag';
-            tag.innerText = ingredientName;
-            tagContainer.appendChild(tag);
+            // tag.innerText = ingredientName;
+            tag.innerHTML= `
+                ${ingredientName}
+                <span class="tag-close"><i class="fa-solid fa-xmark"></i></span>
+            `;
+            //Eviter les doublons d'affichage
+            if(!tagContainer.innerHTML.includes(ingredientName)){
+                tagContainer.appendChild(tag);
+            }
+
+            // Ajout d'un écouteur d'événements pour la suppression du tag ------------------------
+            tag.querySelector('.tag-close').addEventListener('click', (e) => {
+                e.stopPropagation();
+                tagContainer.removeChild(tag);
+                            
+                const tagType = tagContainer.className.split('_')[1]; 
+                const currentSelectedTags = this.tags[tagType];
+            
+                // Supprimer le tag des tableaux sélectionnés
+                const index = currentSelectedTags.indexOf(ingredientName);
+                if (index > -1) {
+                    currentSelectedTags.splice(index, 1);
+                }
+            
+                // Refiltrer les recettes
+                const filteredRecipes = this.recipes.filter(recipe => 
+                    currentSelectedTags.every(tag => 
+                        recipe[tagType].some(item => 
+                            item.toLowerCase().includes(tag.toLowerCase())
+                        )
+                    )
+                );
+                displayRecipes(filteredRecipes);
+                updateArrayRecipes(filteredRecipes);
+            });
         }
     }
-
-
-
-
-
 
     // // Affiche les tags en fonction de l'élément cliqué 
     displayTag(event) {
