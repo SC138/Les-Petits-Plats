@@ -4,6 +4,7 @@ let selectedIngredientTags = [];
 let selectedApplianceTags = [];
 let selectedUtensilTags = [];
 // let selectedIngredientTags = new Set();
+export let tagPush = [];
 
 class DisplayTags {
     constructor(recipes) {
@@ -117,12 +118,15 @@ class DisplayTags {
         if (clickedElement.closest('.filter_ingredients')) {
             tagContainer = document.querySelector('.filter_ingredients_tags');
             this.divIngredients.style.display = 'none';
+            tagPush.push(ingredientName);            
         } else if (clickedElement.closest('.filter_appareils')) {
             tagContainer = document.querySelector('.filter_appareils_tags');
             this.divAppareils.style.display = 'none';
+            tagPush.push(ingredientName);
         } else if (clickedElement.closest('.filter_ustencils')) {
             tagContainer = document.querySelector('.filter_ustencils_tags');
             this.divUstencils.style.display = 'none';
+            tagPush.push(ingredientName);
         }
 
         // Création le tag et ajout au conteneur approprié
@@ -143,15 +147,20 @@ class DisplayTags {
             tag.querySelector('.tag-close').addEventListener('click', (e) => {
                 e.stopPropagation();
                 tagContainer.removeChild(tag);
-                            
                 const tagType = tagContainer.className.split('_')[1]; 
                 const currentSelectedTags = this.tags[tagType];
             
                 // Supprimer le tag des tableaux sélectionnés
                 const index = currentSelectedTags.indexOf(ingredientName);
-                if (index > -1) {
+                if (index >= 0) {
                     currentSelectedTags.splice(index, 1);
                 }
+                tagPush.forEach((item, index)=>{
+                    if(item.includes(ingredientName)){
+                        tagPush.splice(index, 1);
+                    }
+                })
+                console.log("🚀 ~ file: displayTags.js:158 ~ DisplayTags ~ tag.querySelector ~ tagPush:", tagPush)
             
                 // Refiltrer les recettes
                 const filteredRecipes = this.recipes.filter(recipe => 
@@ -166,6 +175,8 @@ class DisplayTags {
             });
         }
     }
+
+    // faire une fonction "updateTags" et mettre à jour l'affichage des recettes 
 
     // // Affiche les tags en fonction de l'élément cliqué 
     displayTag(event) {
