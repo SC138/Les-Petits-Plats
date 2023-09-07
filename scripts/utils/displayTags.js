@@ -10,6 +10,7 @@ class DisplayTags {
     constructor(recipes) {
         // Stocke les recettes fournies à l'instance de la classe
         this.recipes = recipes;
+        this.recipesAll = recipes;
 
         // Stocke les tags dans des tableaux appropriés
         this.tags = {
@@ -45,7 +46,9 @@ class DisplayTags {
         document.addEventListener('click', this.closeMenuOnClickOutside.bind(this));
     }
 
-
+    updateRecipes(newRecipes){
+            this.recipes = newRecipes;
+    }
     
     onTagSelected(event) {
         // Vérifie si l'élément clique a bien la class 'elementP'
@@ -73,8 +76,9 @@ class DisplayTags {
                         )
                     )
                 );
-                displayRecipes(filteredRecipes);
+                this.updateRecipes(filteredRecipes);
                 updateArrayRecipes(filteredRecipes);                
+                displayRecipes(filteredRecipes);
             }
             // Gestion des tags d'appareils
             else if(event.target.classList.contains('appareils')){
@@ -86,8 +90,9 @@ class DisplayTags {
                         recipe.appliance.toLowerCase().includes(tag.toLowerCase())
                     )
                 );
-                displayRecipes(filteredRecipes);
+                this.updateRecipes(filteredRecipes);
                 updateArrayRecipes(filteredRecipes);     
+                displayRecipes(filteredRecipes);
             } 
             // Gestion des tags ustensiles 
             else if (event.target.classList.contains('ustencils')){
@@ -103,12 +108,15 @@ class DisplayTags {
                         )
                     )
                 );
-                displayRecipes(filteredRecipes);
+                this.updateRecipes(filteredRecipes);
                 updateArrayRecipes(filteredRecipes);     
+                displayRecipes(filteredRecipes);
             }
+            console.log(this.recipes);
+            // this.updateTags(); //----------------------------------------------------------------------
         }
     }
-    
+
 
     // Méthode pour ajouter un tag à la liste des tags.
     addTag(ingredientName, clickedElement) {
@@ -129,7 +137,7 @@ class DisplayTags {
             tagPush.push(ingredientName);
         }
 
-        // Création le tag et ajout au conteneur approprié
+        // Création de tag et ajout au conteneur approprié
         if (tagContainer) {
             const tag = document.createElement('div');
             tag.className = 'tag';
@@ -160,25 +168,67 @@ class DisplayTags {
                         tagPush.splice(index, 1);
                     }
                 })
-                console.log("🚀 ~ file: displayTags.js:158 ~ DisplayTags ~ tag.querySelector ~ tagPush:", tagPush)
+
             
+                // const filteredRecipes_test = this.recipesAll.filter(recipe => 
+                //     tagPush.every(tag => 
+                //         recipe[tagType].some(item => 
+                //             item.toLowerCase().includes(tag.toLowerCase())
+                //         )
+                //     )
+                // );
+
+                let tagType_test = tagType.slice(0, -1);
+                
                 // Refiltrer les recettes
-                const filteredRecipes = this.recipes.filter(recipe => 
-                    currentSelectedTags.every(tag => 
-                        recipe[tagType].some(item => 
-                            item.toLowerCase().includes(tag.toLowerCase())
-                        )
+                const filteredRecipes = this.recipesAll.filter(recipe => 
+                    tagPush.every(tag => 
+                        recipe[tagType].some(item => item[tagType_test] == tag)
                     )
+                    
                 );
-                displayRecipes(filteredRecipes);
+                this.updateRecipes(filteredRecipes);
                 updateArrayRecipes(filteredRecipes);
+                displayRecipes(filteredRecipes);
             });
         }
     }
 
-    // faire une fonction "updateTags" et mettre à jour l'affichage des recettes 
+    // {
+    //     // item[tagType] == tag
+    //     console.log("🚀 ~ file: displayTags.js:187 ~ DisplayTags ~ tag.querySelector ~ item[tagType]:", item['ingredient'])
+    //     console.log("🚀 ~ file: displayTags.js:187 ~ DisplayTags ~ tag.querySelector ~ tag:", tag)
+    // }
 
-    // // Affiche les tags en fonction de l'élément cliqué 
+    //----------------------------------------------------------------------
+    // TODO : faire une fonction "updateTags" et mettre à jour l'affichage des recettes 
+    // updateTags(){
+    //     const filter = new FiltersTags(this.recipes);
+
+    //     const updatedIngredients = filter.filteredIngredients();    
+    //     const updatedAppliances = filter.filteredAppliances();
+    //     const updatedUstensils = filter.filteredUstensils();
+        
+    //     // MAJ de l'affichage des ingrédients
+    //     this.updateTagDisplay(this.divIngredients, updatedIngredients, 'ingredients');
+
+    //     // MAJ de l'affichage des appareils
+    //     this.updateTagDisplay(this.divAppareils, updatedAppliances, 'appareils');
+
+    //     // MAJ de l'affichage des ustensiles
+    //     this.updateTagDisplay(this.divUstencils, updatedUstensils, 'ustencils');
+    // }
+
+    // updateTagDisplay(tagContainer, elements, type){
+    //     // Supprime tous les éléments <p> actuels du container
+    //     tagContainer.querySelectorAll('.elementP').forEach(p => p.remove());
+
+    //     // Ajout des élément mis à jour
+    //     this.displayElements(tagContainer, elements, type);
+    // }
+    // //----------------------------------------------------------------------
+
+    // Affiche les tags en fonction de l'élément cliqué 
     displayTag(event) {
         // Récupère l'ID de l'élément cliqué
         const clickedElementId = event.target.id;
