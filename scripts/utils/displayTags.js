@@ -80,7 +80,7 @@ class DisplayTags {
                 updateArrayRecipes(filteredRecipes);                
                 displayRecipes(filteredRecipes);
             }
-            // Gestion des tags d'appareils
+            // Gestion des tags d'appareils 
             else if(event.target.classList.contains('appareils')){
                 this.selectedApplianceTags.push(tagName);
                 // Filtre des recettes par appareil
@@ -166,67 +166,33 @@ class DisplayTags {
                 tagPush.forEach((item, index)=>{
                     if(item.includes(ingredientName)){
                         tagPush.splice(index, 1);
+                        if(tagPush.length === 0){
+                            window.location.reload();
+                            displayRecipes(this.recipesAll);
+                        }
+                        if(tagPush.length > 0){
+                            let newDisplayRecipes = [];
+                            for (let i = 0; i < tagPush.length; i++) {
+                                for (let j = 0; j < this.recipesAll.length; j++){
+                                    if(this.recipesAll[j].ingredients.some(ingredient =>
+                                        ingredient.ingredient.toLowerCase().includes(tagPush[i].toLowerCase())
+                                        ) || this.recipesAll[j].appliance.toLowerCase().includes(tagPush[i].toLowerCase())
+                                        || this.recipesAll[j].ustensils.some(ustensil => 
+                                            ustensil.toLowerCase().includes(tagPush[i].toLowerCase())
+                                            )){
+                                            newDisplayRecipes.push(this.recipesAll[j]);
+                                    }
+                                }
+                            }
+                            this.updateRecipes(newDisplayRecipes);
+                            updateArrayRecipes(newDisplayRecipes);
+                            displayRecipes(newDisplayRecipes);
+                        }
                     }
                 })
-
-            
-                // const filteredRecipes_test = this.recipesAll.filter(recipe => 
-                //     tagPush.every(tag => 
-                //         recipe[tagType].some(item => 
-                //             item.toLowerCase().includes(tag.toLowerCase())
-                //         )
-                //     )
-                // );
-
-                let tagType_test = tagType.slice(0, -1);
-                
-                // Refiltrer les recettes
-                const filteredRecipes = this.recipesAll.filter(recipe => 
-                    tagPush.every(tag => 
-                        recipe[tagType].some(item => item[tagType_test] == tag)
-                    )
-                    
-                );
-                this.updateRecipes(filteredRecipes);
-                updateArrayRecipes(filteredRecipes);
-                displayRecipes(filteredRecipes);
             });
         }
     }
-
-    // {
-    //     // item[tagType] == tag
-    //     console.log("🚀 ~ file: displayTags.js:187 ~ DisplayTags ~ tag.querySelector ~ item[tagType]:", item['ingredient'])
-    //     console.log("🚀 ~ file: displayTags.js:187 ~ DisplayTags ~ tag.querySelector ~ tag:", tag)
-    // }
-
-    //----------------------------------------------------------------------
-    // TODO : faire une fonction "updateTags" et mettre à jour l'affichage des recettes 
-    // updateTags(){
-    //     const filter = new FiltersTags(this.recipes);
-
-    //     const updatedIngredients = filter.filteredIngredients();    
-    //     const updatedAppliances = filter.filteredAppliances();
-    //     const updatedUstensils = filter.filteredUstensils();
-        
-    //     // MAJ de l'affichage des ingrédients
-    //     this.updateTagDisplay(this.divIngredients, updatedIngredients, 'ingredients');
-
-    //     // MAJ de l'affichage des appareils
-    //     this.updateTagDisplay(this.divAppareils, updatedAppliances, 'appareils');
-
-    //     // MAJ de l'affichage des ustensiles
-    //     this.updateTagDisplay(this.divUstencils, updatedUstensils, 'ustencils');
-    // }
-
-    // updateTagDisplay(tagContainer, elements, type){
-    //     // Supprime tous les éléments <p> actuels du container
-    //     tagContainer.querySelectorAll('.elementP').forEach(p => p.remove());
-
-    //     // Ajout des élément mis à jour
-    //     this.displayElements(tagContainer, elements, type);
-    // }
-    // //----------------------------------------------------------------------
 
     // Affiche les tags en fonction de l'élément cliqué 
     displayTag(event) {
