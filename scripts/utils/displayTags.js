@@ -126,15 +126,21 @@ class DisplayTags {
         if (clickedElement.closest('.filter_ingredients')) {
             tagContainer = document.querySelector('.filter_ingredients_tags');
             this.divIngredients.style.display = 'none';
-            tagPush.push(ingredientName);            
+            if(!tagPush.includes(ingredientName)){
+                tagPush.push(ingredientName);
+            }            
         } else if (clickedElement.closest('.filter_appareils')) {
             tagContainer = document.querySelector('.filter_appareils_tags');
             this.divAppareils.style.display = 'none';
-            tagPush.push(ingredientName);
+            if(!tagPush.includes(ingredientName)){
+                tagPush.push(ingredientName);
+            }
         } else if (clickedElement.closest('.filter_ustencils')) {
             tagContainer = document.querySelector('.filter_ustencils_tags');
             this.divUstencils.style.display = 'none';
-            tagPush.push(ingredientName);
+            if(!tagPush.includes(ingredientName)){
+                tagPush.push(ingredientName);
+            }
         }
 
         // Création de tag et ajout au conteneur approprié
@@ -151,6 +157,8 @@ class DisplayTags {
                 tagContainer.appendChild(tag);
             }
 
+            // Tableau pour stocker les recettes affichées 
+            let newDisplayRecipes = [];
             // Ajout d'un écouteur d'événements pour la suppression du tag ------------------------
             tag.querySelector('.tag-close').addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -158,34 +166,48 @@ class DisplayTags {
                 const tagType = tagContainer.className.split('_')[1]; 
                 const currentSelectedTags = this.tags[tagType];
             
-                // Supprimer le tag des tableaux sélectionnés
+                // index correspond au tag sélectionné
                 const index = currentSelectedTags.indexOf(ingredientName);
+                // Si l'index est supérieur ou égal à 0 
                 if (index >= 0) {
+                    // Alors au clique sur la croix, suppression du tag depuis son index
                     currentSelectedTags.splice(index, 1);
                 }
+                // Pour chaque item du tableau tagPush
                 tagPush.forEach((item, index)=>{
+                    // Si l'item du tag inclus le nom du tag
                     if(item.includes(ingredientName)){
+                        // Supprimer cet élément à son index
                         tagPush.splice(index, 1);
+                        // Si le tableau tagPush est vide
                         if(tagPush.length === 0){
-                            window.location.reload();
-                            displayRecipes(this.recipesAll);
+                            // Réinitialise le tag et les recettes
+                            this.resetTags();
                         }
+                        // Si la longueur de tagPush est supérieur à 0 
                         if(tagPush.length > 0){
-                            let newDisplayRecipes = [];
+                            // Boucler sur le tableau tagPush
                             for (let i = 0; i < tagPush.length; i++) {
+                                // Boucler sur toutes les recettes
                                 for (let j = 0; j < this.recipesAll.length; j++){
+                                    // Si une recette contient un élément correspondant au tableau tagPush
+                                    // dans ingrédients, appareils ou ustenciles
                                     if(this.recipesAll[j].ingredients.some(ingredient =>
                                         ingredient.ingredient.toLowerCase().includes(tagPush[i].toLowerCase())
                                         ) || this.recipesAll[j].appliance.toLowerCase().includes(tagPush[i].toLowerCase())
                                         || this.recipesAll[j].ustensils.some(ustensil => 
                                             ustensil.toLowerCase().includes(tagPush[i].toLowerCase())
                                             )){
-                                            newDisplayRecipes.push(this.recipesAll[j]);
+                                                // Envoie les recettes correspondante dans le tableau newDisplayRecipes
+                                                newDisplayRecipes.push(this.recipesAll[j]);
                                     }
                                 }
                             }
+                            // MAJ de l'affichage des recettes
                             this.updateRecipes(newDisplayRecipes);
+                            // MAJ du tableau des recettes
                             updateArrayRecipes(newDisplayRecipes);
+                            // MAJ de l'affichage des recettes
                             displayRecipes(newDisplayRecipes);
                         }
                     }
@@ -193,6 +215,21 @@ class DisplayTags {
             });
         }
     }
+
+    // Fonction pour réinitialiser les tags et les recettes
+    resetTags(){
+        // Vide les 4 tableaux ci dessous
+        this.selectedIngredientTags = [];
+        this.selectedApplianceTags = [];
+        this.selectedUtensilTags = [];
+        tagPush = [];
+
+        // MAJ de l'affichage des recettes avec les 3 fonctions ci dessous
+        this.updateRecipes(this.recipesAll);
+        updateArrayRecipes(this.recipesAll);
+        displayRecipes(this.recipesAll);
+    }
+
 
     // Affiche les tags en fonction de l'élément cliqué 
     displayTag(event) {
