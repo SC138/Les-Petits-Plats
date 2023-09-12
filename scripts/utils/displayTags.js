@@ -1,9 +1,9 @@
 import { FiltersTags} from "./filters.js";
 import { arrayrecipes, displayRecipes, updateArrayRecipes } from "../features/displayRecipes.js";
+import { searchTags } from "../features/searchTagsRecipes.js";
 let selectedIngredientTags = [];
 let selectedApplianceTags = [];
 let selectedUtensilTags = [];
-// let selectedIngredientTags = new Set();
 export let tagPush = [];
 
 class DisplayTags {
@@ -20,7 +20,8 @@ class DisplayTags {
         };
 
         // Sélectionne tous les éléments avec la classe .btn-filter
-        this.inputs = document.querySelectorAll('.btn-filter');
+        this.containerInputs = document.querySelectorAll('.btn-filter');
+        
 
         // Sélectionne les divs pour les ingrédients, appareils et ustensiles
         this.divIngredients = document.querySelector('.filter_ingredients_container');
@@ -33,11 +34,21 @@ class DisplayTags {
 
         // Ajoute un écouteur d'événements 'click' à chaque bouton filtré pour appeler 'displayTag'
         // Fait en sorte que 'this' se réfère bien à l'instance de la classe DisplayTags
-        this.inputs.forEach(input => {
+        this.containerInputs.forEach(container => {
             // La méthode .bind(this) fait en sorte que this dans displayTag se réfère à DisplayTags 
             // et non à l'élément sur lequel on a cliqué.
-            input.addEventListener('click', this.displayTag.bind(this));
+            container.addEventListener('click', this.displayTag.bind(this));
         });
+
+        // this.input = document.querySelectorAll('.searchTag')[0];
+        // if(this.input){
+        //     console.log("🚀 ~ file: displayTags.js:44 ~ DisplayTags ~ constructor ~ this.input:", this.input)
+            
+        //     this.input.forEach(input => {
+        //         input.addEventListener('input', this.displayElements(this.divIngredients, this.selectedIngredientTags));
+        //     })
+        // }
+        
 
         // Écouteur d'event au click sur un élément de la liste
         document.addEventListener('click', this.onTagSelected.bind(this));
@@ -112,8 +123,6 @@ class DisplayTags {
                 updateArrayRecipes(filteredRecipes);     
                 displayRecipes(filteredRecipes);
             }
-            console.log(this.recipes);
-            // this.updateTags(); //----------------------------------------------------------------------
         }
     }
 
@@ -159,7 +168,7 @@ class DisplayTags {
 
             // Tableau pour stocker les recettes affichées 
             let newDisplayRecipes = [];
-            // Ajout d'un écouteur d'événements pour la suppression du tag ------------------------
+            // Ajout d'un écouteur d'événements pour la suppression du tag 
             tag.querySelector('.tag-close').addEventListener('click', (e) => {
                 e.stopPropagation();
                 tagContainer.removeChild(tag);
@@ -293,10 +302,19 @@ class DisplayTags {
     // Création de la search bar pour les tags
     createInput(element){
         const tag = element;
-
+        let input = '';
+        if(element.classList.contains('filter_ingredients_container')){
+            input = 'ingredients';
+        } else if(element.classList.contains('filter_appareils_container')){
+            input = 'appareils';
+        } else if(element.classList.contains('filter_ustencils_container')){
+            input = 'ustencils';
+        }
+        tag.innerHTML = '';
+        
         // Template pour la search bar
         const inputTag = `
-        <input class="searchTag" type="text">
+        <input class="searchTag ${input}" type="text">
         <button class="erase" type="submit">
             <i class="fa-solid fa-xmark"></i>
         </button>
@@ -305,7 +323,7 @@ class DisplayTags {
         // Insertion de la search bar dans le menu 
         tag.innerHTML = inputTag;
     }
-
+    
 
     // Affiche les éléments filtrés dans le container de tags
     displayElements(tagContainer, elements, type){
@@ -321,6 +339,7 @@ class DisplayTags {
             // Ajout de l'élément <p> au conteneur
             tagContainer.appendChild(elementP); 
         });
+        searchTags(this.recipes);
     }
 
 

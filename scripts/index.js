@@ -8,7 +8,7 @@ import {FiltersTags} from './utils/filters.js';
 
 import { DisplayTags } from './utils/displayTags.js';
 
-
+import { searchTags } from './features/searchTagsRecipes.js';
 
 // Fonction asynchrone pour récupérer les recettes depuis le fichier JSON
 async function getRecipes(){
@@ -23,28 +23,6 @@ async function getRecipes(){
     
     // Retourne les recettes extraites
     return recipes;
-}
-
-
-
-// Fonction pour initialiser l'application
-async function init() {
-    // Appelle la fonction 'getRecipes' pour obtenir les recettes
-    const recipes = await getRecipes()
-
-    // Génère des cartes de recettes pour chaque recette
-    generateRecipeCard(recipes);
-
-    // Affiche les recettes 
-    displayRecipes(recipes);
-
-    // Envoie le résultat du fetch dans le FiltersTags
-    const filters = new FiltersTags(recipes);
-    filters.filteredIngredients();
-    filters.filteredAppliances();
-    filters.filteredUstensils();
-
-    new DisplayTags(recipes);
 }
 
 // Sélection des éléments de la search bar et du bouton d'effacement
@@ -118,11 +96,39 @@ erase.addEventListener('click', () => {
 });
 
 
-const filtersSection = document.getElementById('filtersSection');
-filtersSection.addEventListener('click',(e)=>{
-    if(e.target.className == 'btn-filter'){
-    }
-});
+
+// const filtersSection = document.getElementById('filtersSection');
+// filtersSection.addEventListener('click',(e)=>{
+//     if(e.target.className == 'btn-filter'){
+//     }
+// });
+
+// Fonction pour initialiser l'application
+async function init() {
+    // Appelle la fonction 'getRecipes' pour obtenir les recettes
+    const recipes = await getRecipes();
+
+    // Génère des cartes de recettes pour chaque recette
+    generateRecipeCard(recipes);
+
+    // Affiche les recettes 
+    displayRecipes(recipes);
+    
+    
+
+
+    // Envoie le résultat du fetch dans le FiltersTags
+    const filters = new FiltersTags(recipes);
+    filters.filteredIngredients();
+    filters.filteredAppliances();
+    filters.filteredUstensils();
+
+    new DisplayTags(recipes);
+    searchTags(recipes);
+}
+
+
+
 
 
 // Appelle la fonction 'init' pour démarrer l'application
