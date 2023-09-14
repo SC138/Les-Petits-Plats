@@ -40,15 +40,6 @@ class DisplayTags {
             container.addEventListener('click', this.displayTag.bind(this));
         });
 
-        // this.input = document.querySelectorAll('.searchTag')[0];
-        // if(this.input){
-        //     console.log("🚀 ~ file: displayTags.js:44 ~ DisplayTags ~ constructor ~ this.input:", this.input)
-            
-        //     this.input.forEach(input => {
-        //         input.addEventListener('input', this.displayElements(this.divIngredients, this.selectedIngredientTags));
-        //     })
-        // }
-        
 
         // Écouteur d'event au click sur un élément de la liste
         document.addEventListener('click', this.onTagSelected.bind(this));
@@ -71,6 +62,7 @@ class DisplayTags {
 
             // Si l'élément est un ingrédient
             if(event.target.classList.contains('ingredients')){
+                this.recipes = [...this.recipesAll];
                 // Ajoute le tag d'ingrédient à la liste des tags d'ingrédients sélectionnés
                 this.selectedIngredientTags.push(tagName);
 
@@ -93,6 +85,7 @@ class DisplayTags {
             }
             // Gestion des tags d'appareils 
             else if(event.target.classList.contains('appareils')){
+                this.recipes = [...this.recipesAll];
                 this.selectedApplianceTags.push(tagName);
                 // Filtre des recettes par appareil
                 const filteredRecipes = this.recipes.filter(recipe => 
@@ -107,6 +100,7 @@ class DisplayTags {
             } 
             // Gestion des tags ustensiles 
             else if (event.target.classList.contains('ustencils')){
+                this.recipes = [...this.recipesAll];
                 this.selectedUtensilTags.push(tagName);
                 
                 //Filtre les recette par ustensiles
@@ -242,6 +236,8 @@ class DisplayTags {
 
     // Affiche les tags en fonction de l'élément cliqué 
     displayTag(event) {
+        this.recipes = [...this.recipesAll];
+
         // Récupère l'ID de l'élément cliqué
         const clickedElementId = event.target.id;
         let containerTag;
@@ -303,6 +299,7 @@ class DisplayTags {
     createInput(element){
         const tag = element;
         let input = '';
+        // if(element.querySelector('input')) return;
         if(element.classList.contains('filter_ingredients_container')){
             input = 'ingredients';
         } else if(element.classList.contains('filter_appareils_container')){
@@ -311,7 +308,7 @@ class DisplayTags {
             input = 'ustencils';
         }
         tag.innerHTML = '';
-        
+
         // Template pour la search bar
         const inputTag = `
         <input class="searchTag ${input}" type="text">
@@ -327,6 +324,9 @@ class DisplayTags {
 
     // Affiche les éléments filtrés dans le container de tags
     displayElements(tagContainer, elements, type){
+        // Supprime les éléments précédents
+        tagContainer.querySelectorAll('.elementP').forEach(element => element.remove());
+
         // Boucle sur chaque éléments filtré
         elements.forEach((item) => {
             // Crée un élément <p>
@@ -339,9 +339,8 @@ class DisplayTags {
             // Ajout de l'élément <p> au conteneur
             tagContainer.appendChild(elementP); 
         });
-        searchTags(this.recipes);
+        searchTags(this.recipesAll);
     }
-
 
     // Méthode pour fermer les menus en cliquant ailleurs que sur les menus
     closeMenuOnClickOutside(event) {
