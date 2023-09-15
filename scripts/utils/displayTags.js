@@ -48,6 +48,8 @@ class DisplayTags {
         document.addEventListener('click', this.closeMenuOnClickOutside.bind(this));
     }
 
+
+
     updateRecipes(newRecipes){
             this.recipes = newRecipes;
     }
@@ -120,64 +122,70 @@ class DisplayTags {
         }
     }
 
-
     // Méthode pour ajouter un tag à la liste des tags.
-    addTag(ingredientName, clickedElement) {
-        let tagContainer;
+addTag(ingredientName, clickedElement) {
+    let tagContainer;
 
-        // Détermine le bon conteneur de tags en fonction de l'élément cliqué.
-        if (clickedElement.closest('.filter_ingredients')) {
-            tagContainer = document.querySelector('.filter_ingredients_tags');
-            this.divIngredients.style.display = 'none';
-            if(!tagPush.includes(ingredientName)){
-                tagPush.push(ingredientName);
-            }            
-        } else if (clickedElement.closest('.filter_appareils')) {
-            tagContainer = document.querySelector('.filter_appareils_tags');
-            this.divAppareils.style.display = 'none';
-            if(!tagPush.includes(ingredientName)){
-                tagPush.push(ingredientName);
-            }
-        } else if (clickedElement.closest('.filter_ustencils')) {
-            tagContainer = document.querySelector('.filter_ustencils_tags');
-            this.divUstencils.style.display = 'none';
-            if(!tagPush.includes(ingredientName)){
-                tagPush.push(ingredientName);
-            }
+    // Détermine le bon conteneur de tags en fonction de l'élément cliqué.
+    if (clickedElement.closest('.filter_ingredients')) {
+        tagContainer = document.querySelector('.filter_ingredients_tags');
+        this.divIngredients.style.display = 'none';
+        if(!tagPush.includes(ingredientName)){
+            tagPush.push(ingredientName);
+        }            
+    } else if (clickedElement.closest('.filter_appareils')) {
+        tagContainer = document.querySelector('.filter_appareils_tags');
+        this.divAppareils.style.display = 'none';
+        if(!tagPush.includes(ingredientName)){
+            tagPush.push(ingredientName);
+        }
+    } else if (clickedElement.closest('.filter_ustencils')) {
+        tagContainer = document.querySelector('.filter_ustencils_tags');
+        this.divUstencils.style.display = 'none';
+        if(!tagPush.includes(ingredientName)){
+            tagPush.push(ingredientName);
+        }
+    }
+
+    // Création de tag et ajout au conteneur approprié
+    if (tagContainer) {
+        const tag = document.createElement('div');
+        tag.className = 'tag';
+        tag.innerHTML= `
+            ${ingredientName}
+            <span class="tag-close"><i class="fa-solid fa-xmark default-icon"></i></span>
+            <span class="tag-close"><i class="fa-solid fa-circle-xmark hover-icon"></i></span>
+        `;
+
+        // Eviter les doublons d'affichage
+        if(!tagContainer.innerHTML.includes(ingredientName)){
+            tagContainer.appendChild(tag);
         }
 
-        // Création de tag et ajout au conteneur approprié
-        if (tagContainer) {
-            const tag = document.createElement('div');
-            tag.className = 'tag';
-            // tag.innerText = ingredientName;
-            tag.innerHTML= `
-                ${ingredientName}
-                <span class="tag-close"><i class="fa-solid fa-xmark"></i></span>
-            `;
-            //Eviter les doublons d'affichage
-            if(!tagContainer.innerHTML.includes(ingredientName)){
-                tagContainer.appendChild(tag);
-            }
-
-            // Tableau pour stocker les recettes affichées 
-            let newDisplayRecipes = [];
-            // Ajout d'un écouteur d'événements pour la suppression du tag 
-            tag.querySelector('.tag-close').addEventListener('click', (e) => {
+        const closeIcons = tag.querySelectorAll('.tag-close');
+        closeIcons.forEach(icon => {
+            icon.addEventListener('click', (e) => {
                 e.stopPropagation();
                 tagContainer.removeChild(tag);
+                
+                // Commence la mise à jour des recettes
                 const tagType = tagContainer.className.split('_')[1]; 
                 const currentSelectedTags = this.tags[tagType];
-            
+
                 // index correspond au tag sélectionné
                 const index = currentSelectedTags.indexOf(ingredientName);
+
                 // Si l'index est supérieur ou égal à 0 
                 if (index >= 0) {
                     // Alors au clique sur la croix, suppression du tag depuis son index
                     currentSelectedTags.splice(index, 1);
                 }
+
+                // Tableau pour stocker les recettes affichées 
+                let newDisplayRecipes = [];
+
                 // Pour chaque item du tableau tagPush
-                tagPush.forEach((item, index)=>{
+                tagPush.forEach((item, index) => {
                     // Si l'item du tag inclus le nom du tag
                     if(item.includes(ingredientName)){
                         // Supprimer cet élément à son index
@@ -192,9 +200,8 @@ class DisplayTags {
                             // Boucler sur le tableau tagPush
                             for (let i = 0; i < tagPush.length; i++) {
                                 // Boucler sur toutes les recettes
-                                for (let j = 0; j < this.recipesAll.length; j++){
+                                for (let j = 0; j < this.recipesAll.length; j++) {
                                     // Si une recette contient un élément correspondant au tableau tagPush
-                                    // dans ingrédients, appareils ou ustenciles
                                     if(this.recipesAll[j].ingredients.some(ingredient =>
                                         ingredient.ingredient.toLowerCase().includes(tagPush[i].toLowerCase())
                                         ) || this.recipesAll[j].appliance.toLowerCase().includes(tagPush[i].toLowerCase())
@@ -216,8 +223,9 @@ class DisplayTags {
                     }
                 })
             });
-        }
+        });
     }
+}
 
     // Fonction pour réinitialiser les tags et les recettes
     resetTags(){
@@ -276,6 +284,11 @@ class DisplayTags {
             filteredItems = filter.filteredUstensils();
         }
 
+        // if (event.target.classList.contains('btn-filter')) {
+        //     this.toggleHeight();
+        // }
+    
+
         // Si des éléments sont filtrés et que le conteneur est visible, 
         // alors on crée un champ input et on affiche les éléments filtrés
         if (containerTag.style.display !== 'none') {
@@ -283,23 +296,34 @@ class DisplayTags {
             this.displayElements(containerTag, filteredItems, tagType);
         }
     }
-    
+
     toggleVisibility(element) {
-        // Si l'élément est caché ou n'a pas de propriété 'display' définie, 
-        // on le rend visible. Sinon, on le cache.
+        // previousElementSibling cible le bouton lié à cet élément
+        const btn = element.previousElementSibling;
+    
+        // Identifie l'icône à l'intérieur du bouton
+        const icon = btn.querySelector('i');
+    
         if (element.style.display === 'none' || element.style.display === '') {
             element.style.display = 'block';
+            
+            // Si le menu est ouvert, change l'icône pour le chevron up
+            icon.classList.remove('fa-chevron-down');
+            icon.classList.add('fa-chevron-up');
         } else {
             element.style.display = 'none';
+            
+            // Si le menu est fermé, change l'icône pour le chevron down
+            icon.classList.remove('fa-chevron-up');
+            icon.classList.add('fa-chevron-down');
         }
     }
-    
+
 
     // Création de la search bar pour les tags
     createInput(element){
         const tag = element;
         let input = '';
-        // if(element.querySelector('input')) return;
         if(element.classList.contains('filter_ingredients_container')){
             input = 'ingredients';
         } else if(element.classList.contains('filter_appareils_container')){
@@ -312,14 +336,36 @@ class DisplayTags {
         // Template pour la search bar
         const inputTag = `
         <input class="searchTag ${input}" type="text">
-        <button class="erase" type="submit">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
+        <i class="fa-solid fa-xmark delete"></i>
         <img class="img_submit_filters" src="assets/search.png" alt="Loupe de recherche">        
         `
         // Insertion de la search bar dans le menu 
         tag.innerHTML = inputTag;
+
+        // const searchInput = tag.querySelector('.searchTag');
+        // const deleteButton = tag.querySelector('.delete');
+
+        // // Gère l'affichage de la croix de suppression dans l'input
+        // searchInput.addEventListener('input', function(){
+        //     if (this.value.length > 3){
+        //         deleteButton.style.toggleVisibility();
+        //     } else if (this.value.length < 3){
+        //         deleteButton.style.toggleVisibility();
+        //     }
+        // })
+
+        // deleteButton.addEventListener('click', function(e){
+        //     e.preventDefault();
+        //     searchInput.value = '';
+        //     deleteButton.style.display = 'none';
+        // })    
+
+
+        // Mettre le focus sur l'input 
+        tag.querySelector('.searchTag').focus();
     }
+
+    
     
 
     // Affiche les éléments filtrés dans le container de tags
@@ -353,8 +399,23 @@ class DisplayTags {
             this.divIngredients.style.display = 'none';
             this.divAppareils.style.display = 'none';
             this.divUstencils.style.display = 'none';
+    
+            // Remet à jour l'icône des chevrons pour chaque menu
+            const updateChevronIcon = (menuDiv) => {
+                const btn = menuDiv.previousElementSibling;
+                const icon = btn.querySelector('i');
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            }
+    
+            updateChevronIcon(this.divIngredients, '.btn-filter');
+            updateChevronIcon(this.divAppareils, '.btn-filter');
+            updateChevronIcon(this.divUstencils, '.btn-filter');
         }
     }
+    
+    
+
 
 }
 

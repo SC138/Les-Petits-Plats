@@ -143,7 +143,39 @@ main{
     margin-top: 5px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    position: relative; 
 }
+
+.tag-close {
+    display: flex;
+    font-size: 18px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    position: absolute; 
+    right: 10px; 
+    top: 50%;
+    transform: translateY(-50%); 
+}
+
+.tag .hover-icon {
+    display: none;
+    font-size: 25px;
+    position: absolute; 
+    right: 3px; 
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.tag:hover .default-icon {
+    display: none;
+}
+
+.tag:hover .hover-icon {
+    display: block;
+}
+
 
 
 #filtersSection {
@@ -273,7 +305,19 @@ main{
     outline: none;
 }
 
+/* .searchTag[type='search']{
+    height: 20px;
+    width: 20px;
+    background: url(../assets/img/cancel.svg) no-repeat center;
+    background-size: 20px;
+    cursor: pointer;
+} */
 
+
+
+/* .delete{
+    visibility: hidden;
+} */
 
 .img_submit_filters {
     width: auto;
@@ -287,7 +331,6 @@ main{
 
 .elementP{
     font-family: 'Manrope', sans-serif;
-    font-weight: bold;
     padding-left: 20px ;
     height: 15%;
     display: flex;

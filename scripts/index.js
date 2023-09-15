@@ -96,13 +96,6 @@ erase.addEventListener('click', () => {
 });
 
 
-
-// const filtersSection = document.getElementById('filtersSection');
-// filtersSection.addEventListener('click',(e)=>{
-//     if(e.target.className == 'btn-filter'){
-//     }
-// });
-
 // Fonction pour initialiser l'application
 async function init() {
     // Appelle la fonction 'getRecipes' pour obtenir les recettes
