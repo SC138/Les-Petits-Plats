@@ -12,9 +12,9 @@ function searchTags(recipes) {
     const listAppliance = new FiltersTags(recipes).filteredAppliances();
     const listUstensils = new FiltersTags(recipes).filteredUstensils();
 
-    const inputDelete = document.querySelector('.delete');
 
-    
+
+
 
     function attachIngredientListener() {
         const inputIngredients = containerIngredient.querySelector('.ingredients');
@@ -27,11 +27,11 @@ function searchTags(recipes) {
                     new DisplayTags(recipes).displayElements(containerIngredient, listIngredients, 'ingredients');
                     return;
                 }
-                inputDelete.style.display='none';
+
                 // Filtre les éléments si la longueur du texte est supérieure à 2
                 if (searchIngredient.length > 2) {
                     const elementsToDisplay = listIngredients.filter(ingredient => ingredient.toLowerCase().includes(searchIngredient));
-                    inputDelete.style.display='block';
+
                     new DisplayTags(recipes).createInput(containerIngredient);
                     const newInput = containerIngredient.querySelector('.ingredients');
                     newInput.value = searchIngredient;
