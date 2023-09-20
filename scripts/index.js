@@ -27,6 +27,8 @@ async function getRecipes(){
 
 // Sélection des éléments de la search bar et du bouton d'effacement
 const searchInput = document.querySelector('.search input');
+const btnFilter = document.querySelectorAll('.btn-filter');
+const listFilter = document.querySelectorAll('.filter_ingredients_container, .filter_appareils_container, .filter_ustencils_container')
 const erase = document.querySelector('.erase');
 
 function reloadAllRecipes() {
@@ -40,7 +42,36 @@ function reloadAllRecipes() {
         document.querySelector('.no-recipe-message').textContent = '';  
         displayRecipes(recipes);
     });
+
 }
+
+// Gestion des radius sur les boutons de filtre
+btnFilter.forEach((btn) => {
+    btn.addEventListener('click', (event) => {
+        // Empêche l'événement de propagation jusqu'au DOM
+        event.stopPropagation();
+
+        if(btn.classList.contains('close')) {
+            btn.classList.remove('close');
+            btn.style.borderRadius = "10px";
+        } else {
+            btn.classList.add('close');
+            btn.style.borderRadius = "10px 10px 0 0";
+        }
+    });
+});
+
+// Ajout d'un événement click sur le document pour détecter un clic à l'extérieur
+document.addEventListener('click', () => {
+    btnFilter.forEach((btn) => {
+        if(btn.classList.contains('close')) {
+            btn.classList.remove('close');
+            btn.style.borderRadius = "10px";
+        }
+    });
+});
+
+
 
 // Écouteur d'événements d'entrée sur l'élément de recherche
 searchInput.addEventListener('input', async function(event) {

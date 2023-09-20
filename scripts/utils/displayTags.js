@@ -309,6 +309,7 @@ class DisplayTags {
     }
 
     toggleVisibility(element) {
+        
         // previousElementSibling cible le bouton lié à cet élément
         const btn = element.previousElementSibling;
     
@@ -317,6 +318,8 @@ class DisplayTags {
 
         if (element.style.display === 'none' || element.style.display === '') {
             element.style.display = 'block';
+
+
             
             // Si le menu est ouvert, change l'icône pour le chevron up
             icon.classList.remove('fa-chevron-down');
@@ -324,11 +327,14 @@ class DisplayTags {
         } else {
             element.style.display = 'none';
             
+
+
             // Si le menu est fermé, change l'icône pour le chevron down
             icon.classList.remove('fa-chevron-up');
             icon.classList.add('fa-chevron-down');
         }
     }
+
 
 
     // Création de la search bar pour les tags
@@ -469,9 +475,9 @@ class DisplayTags {
         }
     }
     
-    
 
 
 }
 
 export { DisplayTags };
+
