@@ -19,21 +19,25 @@ function generateRecipeCard(recipesData) {
         
         // Définition du HTML de la carte de recette
         const cardRecipe = `
-            <article class="recipe_article">
-                <figure class="recipe_card">
-                    <img src="${picture}" alt="${name}" class="img_recipe">
-                    <span class="time"> ${time}min </span>
-                    <dl class="ingredients_section">
+        <article class="recipe_article">
+            <figure class="recipe_card">
+                <img src="${picture}" alt="${name}" class="img_recipe">
+                <span class="time"> ${time}min </span>
+                <div class="ingredients_section">
+                    <dl>
                         <dt class="recipe_title"> ${name} </dt>
+                        <dd class="hidden"></dd> 
                         <dt class="description_title"> RECETTE </dt>
                         <dd class="recipe_description"> ${description} </dd>
                         <dt class="ingredients_title"> INGRÉDIENTS </dt>
-                        <div class="bloc_ingredients">
-                            ${generateIngredientPlace()}
-                        </div>
+                        <dd class="hidden"></dd> 
                     </dl>
-                </figure>
-            </article>
+                    <div class="bloc_ingredients">
+                        ${generateIngredientPlace()}
+                    </div>
+                </div>
+            </figure>
+        </article>
         `
         // Remplissage de l'élément 'article' avec le HTML de la carte
         $article.innerHTML = cardRecipe;
