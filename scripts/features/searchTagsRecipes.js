@@ -1,7 +1,5 @@
 import { DisplayTags } from "../utils/displayTags.js";
-import { displayRecipes, searchRecipes } from "./displayRecipes.js";
 import { FiltersTags } from "../utils/filters.js";
-import { arrayrecipes } from "../features/displayRecipes.js";
 
 function searchTags(recipes) {
     const containerIngredient = document.querySelector('.filter_ingredients_container');

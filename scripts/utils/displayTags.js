@@ -1,9 +1,9 @@
 import { FiltersTags} from "./filters.js";
-import { arrayrecipes, displayRecipes, updateArrayRecipes } from "../features/displayRecipes.js";
+import { displayRecipes, updateArrayRecipes } from "../features/displayRecipes.js";
 import { searchTags } from "../features/searchTagsRecipes.js";
-let selectedIngredientTags = [];
-let selectedApplianceTags = [];
-let selectedUtensilTags = [];
+// let selectedIngredientTags = [];
+// let selectedApplianceTags = [];
+// let selectedUtensilTags = [];
 export let tagPush = [];
 
 class DisplayTags {

@@ -1,5 +1,5 @@
 import { arrayrecipes } from "../features/displayRecipes.js";
-import { displayRecipes } from "../features/displayRecipes.js";
+
 
 // Génère des listes filtrées à partir des recettes
 class FiltersTags {

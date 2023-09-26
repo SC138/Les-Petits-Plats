@@ -28,7 +28,7 @@ async function getRecipes(){
 // Sélection des éléments de la search bar et du bouton d'effacement
 const searchInput = document.querySelector('.search input');
 const btnFilter = document.querySelectorAll('.btn-filter');
-const listFilter = document.querySelectorAll('.filter_ingredients_container, .filter_appareils_container, .filter_ustencils_container')
+// const listFilter = document.querySelectorAll('.filter_ingredients_container, .filter_appareils_container, .filter_ustencils_container')
 const erase = document.querySelector('.erase');
 
 function reloadAllRecipes() {
