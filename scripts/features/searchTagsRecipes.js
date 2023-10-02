@@ -1,11 +1,14 @@
 import { DisplayTags } from "../utils/displayTags.js";
 import { FiltersTags } from "../utils/filters.js";
 
+// Fonction pour gérer la recherche par tags dans les recettes
 function searchTags(recipes) {
+    // Sélection des conteneurs pour les ingrédients, appareils et ustensiles
     const containerIngredient = document.querySelector('.filter_ingredients_container');
     const containerAppliances = document.querySelector('.filter_appareils_container');
     const containerUstensils = document.querySelector('.filter_ustencils_container');
 
+    // Utilisation de la classe FiltersTags pour obtenir les listes filtrées des ingrédients, appareils et ustensiles
     const listIngredients = new FiltersTags(recipes).filteredIngredients();
     const listAppliance = new FiltersTags(recipes).filteredAppliances();
     const listUstensils = new FiltersTags(recipes).filteredUstensils();
@@ -13,11 +16,15 @@ function searchTags(recipes) {
 
 
 
-
+    // Fonction pour attacher un écouteur d'événements à l'input des ingrédients
     function attachIngredientListener() {
+        // Sélection de l'input dans le conteneur d'ingrédients
         const inputIngredients = containerIngredient.querySelector('.ingredients');
+        // Si l'input existe
         if (inputIngredients) {
+            // Attache un écouteur d'événements qui réagit lorsqu'on tape dedans
             inputIngredients.addEventListener('input', (e) => {
+                // Convertit la valeur entrée en minuscules 
                 const searchIngredient = e.target.value.toLowerCase();
     
                 if (!searchIngredient) {
@@ -28,8 +35,10 @@ function searchTags(recipes) {
 
                 // Filtre les éléments si la longueur du texte est supérieure à 2
                 if (searchIngredient.length > 2) {
+                    // Filtre les ingrédients basés sur la valeur entrée
                     const elementsToDisplay = listIngredients.filter(ingredient => ingredient.toLowerCase().includes(searchIngredient));
 
+                    // Crée un nouvel input et y insère la valeur recherchée
                     new DisplayTags(recipes).createInput(containerIngredient);
                     const newInput = containerIngredient.querySelector('.ingredients');
                     newInput.value = searchIngredient;
@@ -37,6 +46,7 @@ function searchTags(recipes) {
     
                     // Vérifie que l'écouteur est attaché au nouvel input
                     attachIngredientListener();
+                    // Affiche la liste filtrée des ingrédients
                     new DisplayTags(recipes).displayElements(containerIngredient, elementsToDisplay, 'ingredients');
                 }
             });

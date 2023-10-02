@@ -18,6 +18,7 @@ function generateRecipeCard(recipesData) {
         const $article = document.createElement('article');
         
         // Définition du HTML de la carte de recette
+        // dl = (titre)decription liste, dt = (définition)description terme, dd= description définition
         const cardRecipe = `
         <article class="recipe_article">
             <figure class="recipe_card">

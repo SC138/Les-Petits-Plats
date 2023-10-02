@@ -17,17 +17,23 @@ class FiltersTags {
         // Stockage temporaire pour tous les éléments(ingrédients, appareils, ustensiles)
         let allItems = []; 
 
+        // Vérifie si le tableau 'arrayrecipes' a au moins un élément
         if(arrayrecipes.length >= 1){
+            // Parcours tous les éléments du tableau 'arrayrecipes'
             for (let i = 0; i < arrayrecipes.length; i++){
+                // Parcours tous les éléments du sous-tableau de 'arrayrecipes'
                 for (let j = 0; j < arrayrecipes[i].length; j++){
+                    // Parcours chaque recette du sous-tableau courant
                     for(let recipe of arrayrecipes[i]){
+                        // Vérifie si une sous propriété est spécifiée
                         if (subAttribute) {
+                            // Ajoute la valeur de la sous-propriété (ex: nom d'un ingrédient) à la liste 'allItems'
                             // item = un ingrédient, oú un appareil, oú un ustensile
                             for (let item of recipe[attribute]) {
                                 allItems.push(item[subAttribute]);
                             } 
                         } else {
-                            // Sinon, traiter la propriété principale
+                            // Sinon, ajoute la valeur de la propriété principale à la liste 'allItems'
                             allItems.push(recipe[attribute]);
                         }
                     }
